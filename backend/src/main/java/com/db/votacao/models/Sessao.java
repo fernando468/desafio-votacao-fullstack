@@ -15,10 +15,10 @@ public class Sessao extends BaseEntity {
     @JoinColumn(name = "pauta_id", nullable = false, unique = true)
     private Pauta pauta;
 
-    @Column(name = "dataInicio")
+    @Column(name = "dataInicio", nullable = false)
     private LocalDateTime dataInicio;
 
-    @Column(name = "dataFim")
+    @Column(name = "dataFim", nullable = false)
     private LocalDateTime dataFim;
 
     public Long getId() {
@@ -51,5 +51,10 @@ public class Sessao extends BaseEntity {
 
     public void setDataFim(LocalDateTime dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public boolean isAberta() {
+        LocalDateTime agora = LocalDateTime.now();
+        return !agora.isBefore(dataInicio) && agora.isBefore(dataFim);
     }
 }
