@@ -11,10 +11,10 @@ public class Pauta extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "titulo", nullable = false)
+    @Column(name = "titulo", nullable = false, length = 30)
     private String titulo;
 
-    @Column(name = "descricao")
+    @Column(name = "descricao", nullable = false, length = 150)
     private String descricao;
 
     public Long getId() {

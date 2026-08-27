@@ -9,7 +9,7 @@ public class Associado extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
 
     public Long getId() {

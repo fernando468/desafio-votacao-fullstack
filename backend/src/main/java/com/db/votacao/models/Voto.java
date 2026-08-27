@@ -21,7 +21,7 @@ public class Voto extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tipoVoto")
+    @Column(name = "tipoVoto", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private TipoVotoEnum tipoVoto;
 

@@ -2,6 +2,7 @@ package com.db.votacao.services;
 
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
+import com.db.votacao.exceptions.BadRequestException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.mappers.SessaoMapper;
 import com.db.votacao.models.Pauta;
@@ -22,8 +23,11 @@ public class SessaoService {
         this.pautaService = pautaService;
     }
 
-    public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException {
+    public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException, BadRequestException {
         LOGGER.info("Iniciando - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());
+        if (sessaoRequestDTO.dataFim().isBefore(sessaoRequestDTO.dataInicio())) {
+            throw new BadRequestException("Data de fim não pode ser anterior a data de ínicio");
+        }
 
         Pauta pauta = pautaService.buscarPorId(sessaoRequestDTO.pautaId());
         Sessao sessao = SessaoMapper.toEntity(sessaoRequestDTO, pauta);

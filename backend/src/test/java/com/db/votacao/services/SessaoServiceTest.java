@@ -2,6 +2,7 @@ package com.db.votacao.services;
 
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
+import com.db.votacao.exceptions.BadRequestException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.models.Pauta;
 import com.db.votacao.models.Sessao;
@@ -32,7 +33,7 @@ public class SessaoServiceTest {
     private SessaoRepository sessaoRepository;
 
     @Test
-    public void deveCriarSessaoComSucesso() throws NotFoundException {
+    public void deveCriarSessaoComSucesso() throws NotFoundException, BadRequestException {
         SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
 
         Pauta pauta = new Pauta();
@@ -52,6 +53,17 @@ public class SessaoServiceTest {
 
         assertNotNull(sessaoCriada);
         verify(sessaoRepository).save(any(Sessao.class));
+    }
+
+    @Test
+    public void deveRetornarErroAoCriarPautaComDataFimAnteriorADataInicio() throws NotFoundException {
+        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now().plusWeeks(1), LocalDateTime.now());
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> sessaoService.criarSessao(sessaoRequestDTO));
+
+        assertEquals("Data de fim não pode ser anterior a data de ínicio", exception.getMessage());
+        verify(pautaService, never()).buscarPorId(1L);
+        verify(sessaoRepository, never()).save(any(Sessao.class));
     }
 
     @Test
