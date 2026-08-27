@@ -24,21 +24,27 @@ public class SessaoService {
 
     public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException {
         LOGGER.info("Iniciando - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());
+
         Pauta pauta = pautaService.buscarPorId(sessaoRequestDTO.pautaId());
         Sessao sessao = SessaoMapper.toEntity(sessaoRequestDTO, pauta);
         Sessao sessaoCriada = sessaoRepository.save(sessao);
+
         LOGGER.info("Encerrado - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());
+
         return SessaoMapper.toResponseDTO(sessaoCriada);
     }
 
 
     public Sessao buscarSessao(Long id) throws NotFoundException {
         LOGGER.info("Iniciando - buscar sessão com o id: {}", id);
+
         Sessao sessao = sessaoRepository.findById(id).orElseThrow(() -> {
             LOGGER.info("Encerrado - buscar sessão com o id: {}. Sessão não encontrada", id);
             return new NotFoundException("Sessão não encontrada");
         });
+
         LOGGER.info("Encerrado - buscar sessão com o id: {}", id);
+
         return sessao;
     }
 }

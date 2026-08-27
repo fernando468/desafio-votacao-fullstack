@@ -21,19 +21,24 @@ public class PautaService {
 
     public PautaResponseDTO criarPauta(PautaRequestDTO pautaRequestDTO) {
         LOGGER.info("Iniciando - criar pauta");
+
         Pauta pautaCriada = pautaRepository.save(PautaMapper.toEntity(pautaRequestDTO));
+
         LOGGER.info("Encerrado - criar pauta");
         return PautaMapper.toResponseDTO(pautaCriada);
     }
 
     public Pauta buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Iniciando - buscar pauta com o id: {}", id);
+
         Pauta pauta = pautaRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.info("Encerrado - buscar pauta com o id: {}. Erro ao buscar pauta", id);
                     return new NotFoundException("Pauta não econtrada");
                 });
+
         LOGGER.info("Encerrado - buscar pauta com o id: {}", id);
+
         return pauta;
     }
 }

@@ -1,7 +1,10 @@
 package com.db.votacao.exceptions;
 
 import com.db.votacao.dtos.responses.ErroResponseDTO;
+import com.db.votacao.services.SessaoService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,11 +16,14 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErroResponseDTO> handleRunTimeException(
             RuntimeException ex,
             HttpServletRequest request
     ) {
+        LOGGER.error("Erro RuntimeException: {}", ex.getMessage());
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal Server Error",
@@ -32,6 +38,7 @@ public class GlobalExceptionHandler {
             Exception ex,
             HttpServletRequest request
     ) {
+        LOGGER.error("Erro Exception: {}", ex.getMessage());
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal Server Error",
@@ -46,6 +53,7 @@ public class GlobalExceptionHandler {
             NotFoundException ex,
             HttpServletRequest request
     ) {
+        LOGGER.error("Erro NotFondException: {}", ex.getMessage());
         return buildResponse(
                 HttpStatus.NOT_FOUND,
                 "Not Found",
@@ -60,6 +68,7 @@ public class GlobalExceptionHandler {
             ConflictException ex,
             HttpServletRequest request
     ) {
+        LOGGER.error("Erro ConflictException: {}", ex.getMessage());
         return buildResponse(
                 HttpStatus.CONFLICT,
                 "Conflict",
@@ -74,6 +83,7 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex,
             HttpServletRequest request
     ) {
+        LOGGER.error("Erro MethodArgumentNotValidException: {}", ex.getMessage());
         List<String> details = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()

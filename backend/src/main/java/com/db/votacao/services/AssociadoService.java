@@ -25,24 +25,32 @@ public class AssociadoService {
 
     public AssociadoResponseDTO criar(@Valid AssociadoRequestDTO associadoRequestDTO) throws ConflictException {
         String cpfAssociadoLog = associadoRequestDTO.cpf().substring(0, 2);
+
         LOGGER.info("Iniciando - criar associado com cpf: {}", cpfAssociadoLog);
+
         Optional<Associado> associado = associadoRepository.findByCpf(associadoRequestDTO.cpf());
+
         if (associado.isPresent()) {
             LOGGER.error("Encerrado - criar associado com cpf: {}. Erro ao criar associado", cpfAssociadoLog);
             throw new ConflictException("Erro ao criar associado");
         }
+
         Associado associadoCriado = associadoRepository.save(AssociadoMapper.toEntity(associadoRequestDTO));
+
         LOGGER.info("Encerrado - criar associado com cpf: {}", cpfAssociadoLog);
+
         return AssociadoMapper.toResponseDTO(associadoCriado);
     }
 
     public Associado buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Iniciando - buscar associado com o id: {}", id);
+
         Associado associado = associadoRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.error("Encerrado - buscar associado com o id: {}. Associado não encontrado", id);
                     return new NotFoundException("Erro ao buscar usuário");
                 });
+
         LOGGER.info("Encerrado - buscar associado com o id: {}", id);
         return associado;
     }

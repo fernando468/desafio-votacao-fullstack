@@ -30,6 +30,7 @@ public class VotoService {
 
     public VotoResponseDTO criarVoto(VotoRequestDTO votoRequestDTO) throws NotFoundException, ConflictException {
         LOGGER.info("Iniciando - criar voto: {}", votoRequestDTO);
+
         Sessao sessao = sessaoService.buscarSessao(votoRequestDTO.sessaoId());
         Associado associado = associadoService.buscarPorId(votoRequestDTO.associadoId());
         boolean associadoJaVotou = votoRepository.existsByAssociadoIdAndSessaoId(votoRequestDTO.associadoId(), votoRequestDTO.sessaoId());
@@ -46,7 +47,9 @@ public class VotoService {
         }
 
         Voto votoCriado = votoRepository.save(VotoMapper.toEntity(votoRequestDTO, associado, sessao));
+
         LOGGER.info("Encerrado - criar voto: {}", votoRequestDTO);
+
         return VotoMapper.toResponseDTO(votoCriado);
     }
 
