@@ -11,8 +11,8 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("My Spring Boot API")
+                        .title("API de votação para associados")
                         .version("1.0.0")
-                        .description("API documentation for my application."));
+                        .description("Documentação da API."));
     }
 }

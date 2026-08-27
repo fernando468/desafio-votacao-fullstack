@@ -23,7 +23,7 @@ public class AssociadoService {
         this.associadoRepository = associadoRepository;
     }
 
-    public AssociadoResponseDTO criar(@Valid AssociadoRequestDTO associadoRequestDTO) throws ConflictException {
+    public AssociadoResponseDTO criarAssociado(@Valid AssociadoRequestDTO associadoRequestDTO) throws ConflictException {
         String cpfAssociadoLog = associadoRequestDTO.cpf().substring(0, 2);
 
         LOGGER.info("Iniciando - criar associado com cpf: {}", cpfAssociadoLog);

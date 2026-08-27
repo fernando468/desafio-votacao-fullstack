@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.naming.ConfigurationException;
-
 @RestController
 @RequestMapping("/associados")
 @Tag(name = "Associados", description = "Endpoints dos associados")
@@ -43,8 +41,8 @@ public class AssociadoController {
             )
     })
     @InternalServerErrorResponse
-    public ResponseEntity<AssociadoResponseDTO> criar(
+    public ResponseEntity<AssociadoResponseDTO> criarAssociado(
             @Valid @RequestBody AssociadoRequestDTO associadoRequestDTO) throws ConflictException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.associadoService.criar(associadoRequestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.associadoService.criarAssociado(associadoRequestDTO));
     }
 }
