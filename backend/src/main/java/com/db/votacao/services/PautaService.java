@@ -34,7 +34,7 @@ public class PautaService {
         Pauta pauta = pautaRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.info("Encerrado - buscar pauta com o id: {}. Erro ao buscar pauta", id);
-                    return new NotFoundException("Pauta não econtrada");
+                    return new NotFoundException("Pauta não encontrada");
                 });
 
         LOGGER.info("Encerrado - buscar pauta com o id: {}", id);

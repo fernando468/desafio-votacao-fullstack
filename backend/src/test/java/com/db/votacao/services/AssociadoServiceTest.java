@@ -62,7 +62,7 @@ public class AssociadoServiceTest {
     }
 
     @Test
-    public void deveBuscarAssociadoComSucesso() throws NotFoundException {
+    public void deveBuscarAssociadoPorIdComSucesso() throws NotFoundException {
         Associado associado = new Associado();
         associado.setId(1L);
         associado.setCpf("39591736010");
@@ -76,7 +76,7 @@ public class AssociadoServiceTest {
     }
 
     @Test
-    public void deveRetornarErroQuandoAssociadoNaoEncontrado() {
+    public void deveRetornarErroQuandoAssociadoNaoEncontradoBuscandoPorId() {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> associadoService.buscarPorId(1L));
 
         assertEquals("Erro ao buscar usuário", exception.getMessage());
