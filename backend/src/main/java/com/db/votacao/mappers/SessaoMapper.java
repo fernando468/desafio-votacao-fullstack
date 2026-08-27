@@ -18,7 +18,8 @@ public class SessaoMapper {
         return new SessaoResponseDTO(
                 PautaMapper.toResponseDTO(sessao.getPauta()),
                 sessao.getDataInicio(),
-                sessao.getDataFim()
+                sessao.getDataFim(),
+                sessao.isAberta()
         );
     }
 }

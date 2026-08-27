@@ -9,6 +9,8 @@ import com.db.votacao.models.Associado;
 import com.db.votacao.models.Sessao;
 import com.db.votacao.models.Voto;
 import com.db.votacao.repositories.VotoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +18,7 @@ public class VotoService {
     private final VotoRepository votoRepository;
     private final SessaoService sessaoService;
     private final AssociadoService associadoService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(VotoService.class.getName());
 
     public VotoService(VotoRepository votoRepository,
                        SessaoService sessaoService,
@@ -25,18 +28,25 @@ public class VotoService {
         this.associadoService = associadoService;
     }
 
-    public VotoResponseDTO votar(VotoRequestDTO votoRequestDTO) throws NotFoundException, ConflictException {
+    public VotoResponseDTO criarVoto(VotoRequestDTO votoRequestDTO) throws NotFoundException, ConflictException {
+        LOGGER.info("Iniciando - criar voto: {}", votoRequestDTO);
         Sessao sessao = sessaoService.buscarSessao(votoRequestDTO.sessaoId());
         Associado associado = associadoService.buscarPorId(votoRequestDTO.associadoId());
         boolean associadoJaVotou = votoRepository.existsByAssociadoIdAndSessaoId(votoRequestDTO.associadoId(), votoRequestDTO.sessaoId());
 
 
-        if (sessao.isAberta() || associadoJaVotou) {
-            throw new ConflictException();
+        if (!sessao.isAberta()) {
+            LOGGER.info("Encerrado - criar voto: {}. Erro sessão não esta aberta", votoRequestDTO);
+            throw new ConflictException("Sessão não esta aberta para votação");
+        }
+
+        if (associadoJaVotou) {
+            LOGGER.info("Encerrado - criar voto: {}. Associado já votou", votoRequestDTO);
+            throw new ConflictException("Associado já votou nessa pauta");
         }
 
         Voto votoCriado = votoRepository.save(VotoMapper.toEntity(votoRequestDTO, associado, sessao));
-
+        LOGGER.info("Encerrado - criar voto: {}", votoRequestDTO);
         return VotoMapper.toResponseDTO(votoCriado);
     }
 

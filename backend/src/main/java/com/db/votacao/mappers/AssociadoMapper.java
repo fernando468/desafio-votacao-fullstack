@@ -11,7 +11,7 @@ public class AssociadoMapper {
 
     public static Associado toEntity(AssociadoRequestDTO associadoRequestDTO) {
         Associado associado = new Associado();
-        associado.setCpf(associado.getCpf());
+        associado.setCpf(associadoRequestDTO.cpf());
         return associado;
     }
 }

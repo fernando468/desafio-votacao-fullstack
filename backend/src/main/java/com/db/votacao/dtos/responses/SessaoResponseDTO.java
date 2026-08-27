@@ -5,6 +5,6 @@ import java.time.LocalDateTime;
 public record SessaoResponseDTO(
         PautaResponseDTO pauta,
         LocalDateTime dataInicio,
-        LocalDateTime dataFim
-) {
+        LocalDateTime dataFim,
+        Boolean isAberta) {
 }

@@ -5,7 +5,7 @@ import com.db.votacao.dtos.responses.PautaResponseDTO;
 import com.db.votacao.models.Pauta;
 
 public class PautaMapper {
-    public Pauta toEntity(PautaRequestDTO pautaRequestDTO) {
+    public static Pauta toEntity(PautaRequestDTO pautaRequestDTO) {
         Pauta pauta = new Pauta();
         pauta.setTitulo(pautaRequestDTO.titulo());
         pauta.setDescricao(pautaRequestDTO.descricao());
