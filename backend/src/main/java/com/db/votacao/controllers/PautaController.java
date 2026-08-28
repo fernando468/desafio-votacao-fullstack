@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pautas")
@@ -35,5 +32,17 @@ public class PautaController {
     public ResponseEntity<PautaResponseDTO> criarPauta(
             @Valid @RequestBody PautaRequestDTO pautaRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pautaService.criarPauta(pautaRequestDTO));
+    }
+
+    @GetMapping("/paginacao")
+    @Operation(summary = "Busca as pautas com paginação")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Listagem das pautas")
+    })
+    public ResponseEntity<?> buscarPaginado(
+            @RequestParam(name = "pagina") Integer pagina,
+            @RequestParam(name = "tamanho") Integer tamanho
+    ) {
+        return ResponseEntity.ok(pautaService.buscarPautas(pagina, tamanho));
     }
 }

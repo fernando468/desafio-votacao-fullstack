@@ -8,10 +8,12 @@ import com.db.votacao.models.Pauta;
 import com.db.votacao.repositories.PautaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PautaService {
+public class PautaService extends PaginacaoService {
     private final PautaRepository pautaRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(PautaService.class.getName());
 
@@ -25,7 +27,15 @@ public class PautaService {
         Pauta pautaCriada = pautaRepository.save(PautaMapper.toEntity(pautaRequestDTO));
 
         LOGGER.info("Encerrado - criar pauta");
+
         return PautaMapper.toResponseDTO(pautaCriada);
+    }
+
+    public Page<PautaResponseDTO> buscarPautas(int pagina, int tamanho) {
+        LOGGER.info("Iniciando - buscar pautas (pagina={}, tamanho={})", pagina, tamanho);
+        Page<PautaResponseDTO> pautas = paginar(Pauta.class, pagina, tamanho, "id", Sort.Direction.ASC, PautaMapper::toResponseDTO);
+        LOGGER.info("Encerrado - buscar pautas (pagina={}, tamanho={}, total={})", pagina, tamanho, pautas.getTotalElements());
+        return pautas;
     }
 
     public Pauta buscarPorId(Long id) throws NotFoundException {
@@ -34,11 +44,12 @@ public class PautaService {
         Pauta pauta = pautaRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.info("Encerrado - buscar pauta com o id: {}. Erro ao buscar pauta", id);
-                    return new NotFoundException("Pauta não encontrada");
+                    return new NotFoundException("Pauta de id: %s não encontrada", id);
                 });
 
         LOGGER.info("Encerrado - buscar pauta com o id: {}", id);
 
         return pauta;
     }
+
 }

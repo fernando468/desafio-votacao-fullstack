@@ -24,7 +24,7 @@ public class AssociadoService {
     }
 
     public AssociadoResponseDTO criarAssociado(@Valid AssociadoRequestDTO associadoRequestDTO) throws ConflictException {
-        String cpfAssociadoLog = associadoRequestDTO.cpf().substring(0, 2);
+        String cpfAssociadoLog = associadoRequestDTO.cpf().substring(0, 3);
 
         LOGGER.info("Iniciando - criar associado com cpf: {}", cpfAssociadoLog);
 
@@ -48,7 +48,7 @@ public class AssociadoService {
         Associado associado = associadoRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.error("Encerrado - buscar associado com o id: {}. Associado não encontrado", id);
-                    return new NotFoundException("Erro ao buscar usuário");
+                    return new NotFoundException("Erro ao buscar usuário de id: %s", id);
                 });
 
         LOGGER.info("Encerrado - buscar associado com o id: {}", id);

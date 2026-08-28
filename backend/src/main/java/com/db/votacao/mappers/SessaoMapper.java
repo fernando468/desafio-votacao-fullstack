@@ -16,6 +16,7 @@ public class SessaoMapper {
 
     public static SessaoResponseDTO toResponseDTO(Sessao sessao) {
         return new SessaoResponseDTO(
+                sessao.getId(),
                 PautaMapper.toResponseDTO(sessao.getPauta()),
                 sessao.getDataInicio(),
                 sessao.getDataFim(),

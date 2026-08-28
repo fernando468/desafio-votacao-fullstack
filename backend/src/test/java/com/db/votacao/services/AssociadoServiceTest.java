@@ -79,7 +79,7 @@ public class AssociadoServiceTest {
     public void deveRetornarErroQuandoAssociadoNaoEncontradoBuscandoPorId() {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> associadoService.buscarPorId(1L));
 
-        assertEquals("Erro ao buscar usuário", exception.getMessage());
+        assertEquals("Erro ao buscar usuário de id: 1", exception.getMessage());
         verify(associadoRepository).findById(1L);
     }
 }

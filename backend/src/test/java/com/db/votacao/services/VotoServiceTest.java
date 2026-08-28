@@ -107,7 +107,7 @@ public class VotoServiceTest {
 
         ConflictException exception = assertThrows(ConflictException.class, () -> votoService.criarVoto(request));
 
-        assertEquals("Sessão não esta aberta para votação", exception.getMessage());
+        assertEquals("Sessão de id: 1 não esta aberta para votação", exception.getMessage());
         verify(votoRepository, never()).save(any(Voto.class));
     }
 
@@ -138,7 +138,7 @@ public class VotoServiceTest {
 
         ConflictException exception = assertThrows(ConflictException.class, () -> votoService.criarVoto(request));
 
-        assertEquals("Associado já votou nessa pauta", exception.getMessage());
+        assertEquals("Associado de id: 1 já votou nessa pauta", exception.getMessage());
         verify(votoRepository, never()).save(any(Voto.class));
     }
 

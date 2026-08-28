@@ -70,11 +70,11 @@ public class SessaoServiceTest {
     public void deveRetornarErroAoCriarSessaoComPautaNaoExistente() throws NotFoundException {
         SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
 
-        when(pautaService.buscarPorId(1L)).thenThrow(new NotFoundException("Pauta não encontrada"));
+        when(pautaService.buscarPorId(1L)).thenThrow(new NotFoundException("Pauta de id: 1 não encontrada"));
 
         NotFoundException exception = assertThrows(NotFoundException.class, () -> sessaoService.criarSessao(sessaoRequestDTO));
 
-        assertEquals("Pauta não encontrada", exception.getMessage());
+        assertEquals("Pauta de id: 1 não encontrada", exception.getMessage());
         verify(sessaoRepository, never()).save(any(Sessao.class));
     }
 
@@ -104,7 +104,7 @@ public class SessaoServiceTest {
 
         NotFoundException exception = assertThrows(NotFoundException.class, () -> sessaoService.buscarSessao(1L));
 
-        assertEquals("Sessão não encontrada", exception.getMessage());
+        assertEquals("Sessão de id: 1 não encontrada", exception.getMessage());
         verify(sessaoRepository).findById(1L);
     }
 }

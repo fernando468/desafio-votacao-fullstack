@@ -38,12 +38,12 @@ public class VotoService {
 
         if (!sessao.isAberta()) {
             LOGGER.info("Encerrado - criar voto: {}. Erro sessão não esta aberta", votoRequestDTO);
-            throw new ConflictException("Sessão não esta aberta para votação");
+            throw new ConflictException("Sessão de id: %s não esta aberta para votação", votoRequestDTO.sessaoId());
         }
 
         if (associadoJaVotou) {
             LOGGER.info("Encerrado - criar voto: {}. Associado já votou", votoRequestDTO);
-            throw new ConflictException("Associado já votou nessa pauta");
+            throw new ConflictException("Associado de id: %s já votou nessa pauta", votoRequestDTO.associadoId());
         }
 
         Voto votoCriado = votoRepository.save(VotoMapper.toEntity(votoRequestDTO, associado, sessao));

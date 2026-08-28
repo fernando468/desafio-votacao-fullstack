@@ -65,7 +65,7 @@ public class PautaServiceTest {
 
         NotFoundException exception = assertThrows(NotFoundException.class, () -> pautaService.buscarPorId(1L));
 
-        assertEquals("Pauta não encontrada", exception.getMessage());
+        assertEquals("Pauta de id: 1 não encontrada", exception.getMessage());
         verify(pautaRepository, never()).save(any(Pauta.class));
         verify(pautaRepository).findById(1L);
     }

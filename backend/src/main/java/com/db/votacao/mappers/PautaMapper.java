@@ -14,6 +14,7 @@ public class PautaMapper {
 
     public static PautaResponseDTO toResponseDTO(Pauta pauta) {
         return new PautaResponseDTO(
+                pauta.getId(),
                 pauta.getTitulo(),
                 pauta.getDescricao()
         );
