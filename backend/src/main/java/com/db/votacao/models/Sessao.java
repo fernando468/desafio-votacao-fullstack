@@ -17,10 +17,10 @@ public class Sessao extends BaseEntity {
     private Pauta pauta;
 
     @Column(name = "dataInicio", nullable = false)
-    private LocalDate dataInicio;
+    private LocalDateTime dataInicio;
 
     @Column(name = "dataFim", nullable = false)
-    private LocalDate dataFim;
+    private LocalDateTime dataFim;
 
     public Long getId() {
         return id;
@@ -38,24 +38,24 @@ public class Sessao extends BaseEntity {
         this.pauta = pauta;
     }
 
-    public LocalDate getDataInicio() {
+    public LocalDateTime getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(LocalDateTime dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFim() {
+    public LocalDateTime getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
+    public void setDataFim(LocalDateTime dataFim) {
         this.dataFim = dataFim;
     }
 
     public boolean isAberta() {
-        LocalDate agora = LocalDate.now();
+        LocalDateTime agora = LocalDateTime.now();
         return !agora.isBefore(dataInicio) && agora.isBefore(dataFim);
     }
 }

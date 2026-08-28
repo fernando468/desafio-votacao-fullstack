@@ -47,10 +47,11 @@ export default function SessaoForm({
             </Grid>
             <Grid>
               <CustomFormTextField
-                name="dataFim"
-                label="Data de Término"
-                type="date"
-                placeholder="Data de Término"
+                name="tempoEmMinuto"
+                label="Tempo em minuto"
+                type="number"
+                placeholder="Tempo em minuto"
+                min={1}
                 control={control}
                 required
               />

@@ -5,6 +5,7 @@ import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.ErroResponseDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.BadRequestException;
+import com.db.votacao.exceptions.ConflictException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.services.SessaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +42,7 @@ public class SessaoController {
     })
     @InternalServerErrorResponse
     public ResponseEntity<SessaoResponseDTO> criarSessao(
-            @Valid @RequestBody SessaoRequestDTO sessaoResponseDTO) throws NotFoundException, BadRequestException {
+            @Valid @RequestBody SessaoRequestDTO sessaoResponseDTO) throws NotFoundException, BadRequestException, ConflictException {
         return ResponseEntity.status(HttpStatus.CREATED).body(sessaoService.criarSessao(sessaoResponseDTO));
     }
 

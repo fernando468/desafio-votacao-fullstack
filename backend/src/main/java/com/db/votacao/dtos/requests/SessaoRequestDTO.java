@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 public record SessaoRequestDTO(
         @NotNull Long pautaId,
-        @NotNull LocalDate dataInicio,
-        @NotNull LocalDate dataFim) {
+        @NotNull LocalDateTime dataInicio,
+        @NotNull Integer tempoEmMinuto) {
 }

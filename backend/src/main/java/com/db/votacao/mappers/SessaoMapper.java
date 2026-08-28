@@ -5,12 +5,14 @@ import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.models.Pauta;
 import com.db.votacao.models.Sessao;
 
+import java.time.LocalDateTime;
+
 public class SessaoMapper {
-    public static Sessao toEntity(SessaoRequestDTO sessaoRequestDTO, Pauta pauta) {
+    public static Sessao toEntity(SessaoRequestDTO sessaoRequestDTO, Pauta pauta, LocalDateTime dataFinal) {
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
         sessao.setDataInicio(sessaoRequestDTO.dataInicio());
-        sessao.setDataFim(sessaoRequestDTO.dataFim());
+        sessao.setDataFim(dataFinal);
         return sessao;
     }
 

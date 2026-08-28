@@ -3,6 +3,7 @@ package com.db.votacao.services;
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.BadRequestException;
+import com.db.votacao.exceptions.ConflictException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.mappers.SessaoMapper;
 import com.db.votacao.models.Pauta;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class SessaoService extends PaginacaoService {
@@ -25,14 +28,21 @@ public class SessaoService extends PaginacaoService {
         this.pautaService = pautaService;
     }
 
-    public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException, BadRequestException {
+    public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException, BadRequestException, ConflictException {
         LOGGER.info("Iniciando - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());
-        if (sessaoRequestDTO.dataFim().isBefore(sessaoRequestDTO.dataInicio())) {
+        LocalDateTime dataFinal = sessaoRequestDTO.dataInicio().plusMinutes(sessaoRequestDTO.tempoEmMinuto());
+
+        if (dataFinal.isBefore(sessaoRequestDTO.dataInicio())) {
             throw new BadRequestException("Data de fim não pode ser anterior a data de ínicio");
         }
 
+        boolean sessaoEncontrada = sessaoRepository.existsByPautaId(sessaoRequestDTO.pautaId());
+        if (sessaoEncontrada) {
+            throw new ConflictException("Já existe uma sessão para essa pauta");
+        }
+
         Pauta pauta = pautaService.buscarPorId(sessaoRequestDTO.pautaId());
-        Sessao sessao = SessaoMapper.toEntity(sessaoRequestDTO, pauta);
+        Sessao sessao = SessaoMapper.toEntity(sessaoRequestDTO, pauta, dataFinal);
         Sessao sessaoCriada = sessaoRepository.save(sessao);
 
         LOGGER.info("Encerrado - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());

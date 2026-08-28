@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid, Pagination } from "@mui/material";
+import { set } from "date-fns";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ export default function Sessao() {
   const [pautas, setPautas] = useState<PautaResponse[]>([]);
   const { control, reset } = useForm<SessaoRequest>({
     defaultValues: {
-      dataFim: "",
+      tempoEmMinuto: 1,
       dataInicio: "",
       pautaId: 1,
     },
@@ -45,8 +46,21 @@ export default function Sessao() {
   }: {
     data: SessaoRequest;
   }) => {
+    const dataInicio = new Date(data.dataInicio);
+    const agora = new Date();
+
+    const resultado = set(dataInicio, {
+      hours: agora.getHours(),
+      minutes: agora.getMinutes(),
+      seconds: agora.getSeconds(),
+      milliseconds: agora.getMilliseconds(),
+    }).toISOString();
+
     await sessaoService
-      .post(data)
+      .post({
+        ...data,
+        dataInicio: resultado,
+      })
       .then(() => {
         toast.success("Sessão criada com sucesso!");
         toggleModal();
@@ -62,7 +76,7 @@ export default function Sessao() {
       pagina: pagina,
       tamanho: tamanho,
     });
-    console.log(response);
+
     if (response) {
       setSessoes(response.content);
       setTotalPaginas(response.totalPages);

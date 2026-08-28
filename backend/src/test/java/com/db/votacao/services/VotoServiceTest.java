@@ -52,8 +52,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
-        sessao.setDataFim(LocalDate.now().plusYears(1));
+        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
+        sessao.setDataFim(LocalDateTime.now().plusYears(1));
 
         Associado associado = new Associado();
         associado.setId(associadoId);
@@ -95,8 +95,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
-        sessao.setDataFim(LocalDate.of(2026, Month.JANUARY, 30));
+        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
+        sessao.setDataFim(LocalDateTime.of(2026, Month.JANUARY, 30, 0, 0));
 
         Associado associado = new Associado();
         associado.setId(associadoId);
@@ -126,8 +126,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
-        sessao.setDataFim(LocalDate.now().plusYears(1));
+        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
+        sessao.setDataFim(LocalDateTime.now().plusYears(1));
 
         Associado associado = new Associado();
         associado.setId(associadoId);

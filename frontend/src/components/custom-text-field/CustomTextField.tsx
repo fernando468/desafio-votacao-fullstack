@@ -52,11 +52,16 @@ export default function CustomFormTextField({
               : type === "date"
                 ? rawValue
                 : rawValue.replace(/\d/g, "");
+          const valueToSave = maxLength
+            ? valueWithoutNumbers.slice(0, maxLength)
+            : valueWithoutNumbers;
 
           onChange(
-            maxLength
-              ? valueWithoutNumbers.slice(0, maxLength)
-              : valueWithoutNumbers,
+            type === "number" || number
+              ? valueToSave === ""
+                ? undefined
+                : Number(valueToSave)
+              : valueToSave,
           );
         };
 

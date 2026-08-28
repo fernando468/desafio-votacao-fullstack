@@ -3,7 +3,7 @@ import type { PautaResponse } from "./pauta.type";
 export type SessaoRequest = {
   pautaId: number;
   dataInicio: string;
-  dataFim: string;
+  tempoEmMinuto: number;
 };
 
 export type SessaoResponse = {

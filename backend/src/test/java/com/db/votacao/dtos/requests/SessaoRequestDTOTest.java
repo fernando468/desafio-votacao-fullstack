@@ -26,7 +26,7 @@ public class SessaoRequestDTOTest {
     @Test
     public void deveSerValidoQuandoCamposForemPreenchidos() {
 
-        SessaoRequestDTO dto = new SessaoRequestDTO(1L, LocalDate.now(), LocalDate.now());
+        SessaoRequestDTO dto = new SessaoRequestDTO(1L, LocalDateTime.now(), 1);
 
 
         Set<ConstraintViolation<SessaoRequestDTO>> violations = validator.validate(dto);
@@ -45,7 +45,7 @@ public class SessaoRequestDTOTest {
 
         boolean pautaIdNula = violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("pautaId"));
         boolean dataInicioNula = violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("dataInicio"));
-        boolean dataFimNula = violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("dataFim"));
+        boolean dataFimNula = violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("tempoEmMinuto"));
 
         assertTrue(pautaIdNula);
         assertTrue(dataInicioNula);
