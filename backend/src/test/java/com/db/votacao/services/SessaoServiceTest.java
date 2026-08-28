@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class SessaoServiceTest {
 
     @Test
     public void deveCriarSessaoComSucesso() throws NotFoundException, BadRequestException {
-        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
+        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDate.now(), LocalDate.now().plusWeeks(1));
 
         Pauta pauta = new Pauta();
         pauta.setTitulo("Título");
@@ -43,8 +44,8 @@ public class SessaoServiceTest {
         Sessao sessao = new Sessao();
         sessao.setId(1L);
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDateTime.now());
-        sessao.setDataFim(LocalDateTime.now());
+        sessao.setDataInicio(LocalDate.now());
+        sessao.setDataFim(LocalDate.now());
 
         when(pautaService.buscarPorId(1L)).thenReturn(pauta);
         when(sessaoRepository.save(any(Sessao.class))).thenReturn(sessao);
@@ -57,7 +58,7 @@ public class SessaoServiceTest {
 
     @Test
     public void deveRetornarErroAoCriarPautaComDataFimAnteriorADataInicio() throws NotFoundException {
-        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now().plusWeeks(1), LocalDateTime.now());
+        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDate.now().plusWeeks(1), LocalDate.now());
 
         BadRequestException exception = assertThrows(BadRequestException.class, () -> sessaoService.criarSessao(sessaoRequestDTO));
 
@@ -68,7 +69,7 @@ public class SessaoServiceTest {
 
     @Test
     public void deveRetornarErroAoCriarSessaoComPautaNaoExistente() throws NotFoundException {
-        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
+        SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDate.now(), LocalDate.now().plusWeeks(1));
 
         when(pautaService.buscarPorId(1L)).thenThrow(new NotFoundException("Pauta de id: 1 não encontrada"));
 
@@ -87,8 +88,8 @@ public class SessaoServiceTest {
         Sessao sessao = new Sessao();
         sessao.setId(1L);
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDateTime.now());
-        sessao.setDataFim(LocalDateTime.now());
+        sessao.setDataInicio(LocalDate.now());
+        sessao.setDataFim(LocalDate.now());
 
         when(sessaoRepository.findById(1L)).thenReturn(Optional.of(sessao));
 

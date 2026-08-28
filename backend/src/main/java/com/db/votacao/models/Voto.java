@@ -3,6 +3,7 @@ package com.db.votacao.models;
 import com.db.votacao.enums.TipoVotoEnum;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name = "voto")
@@ -26,7 +27,7 @@ public class Voto extends BaseEntity {
     private TipoVotoEnum tipoVoto;
 
     @Column(nullable = false)
-    private LocalDateTime dataVotacao;
+    private LocalDate dataVotacao;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "associado_id")
@@ -52,11 +53,11 @@ public class Voto extends BaseEntity {
         this.tipoVoto = tipoVoto;
     }
 
-    public LocalDateTime getDataVotacao() {
+    public LocalDate getDataVotacao() {
         return dataVotacao;
     }
 
-    public void setDataVotacao(LocalDateTime dataVotacao) {
+    public void setDataVotacao(LocalDate dataVotacao) {
         this.dataVotacao = dataVotacao;
     }
 

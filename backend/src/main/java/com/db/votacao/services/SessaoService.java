@@ -29,7 +29,7 @@ public class SessaoService extends PaginacaoService {
 
     public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) throws NotFoundException, BadRequestException {
         LOGGER.info("Iniciando - criar sessão para a pauta de id: {}", sessaoRequestDTO.pautaId());
-        if (sessaoRequestDTO.dataFim().isAfter(sessaoRequestDTO.dataInicio())) {
+        if (sessaoRequestDTO.dataFim().isBefore(sessaoRequestDTO.dataInicio())) {
             throw new BadRequestException("Data de fim não pode ser anterior a data de ínicio");
         }
 

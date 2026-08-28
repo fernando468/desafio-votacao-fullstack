@@ -7,6 +7,7 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class SessaoRequestDTOTest {
     @Test
     public void deveSerValidoQuandoCamposForemPreenchidos() {
 
-        SessaoRequestDTO dto = new SessaoRequestDTO(1L, LocalDateTime.now(), LocalDateTime.now());
+        SessaoRequestDTO dto = new SessaoRequestDTO(1L, LocalDate.now(), LocalDate.now());
 
 
         Set<ConstraintViolation<SessaoRequestDTO>> violations = validator.validate(dto);

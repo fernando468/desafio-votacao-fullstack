@@ -6,6 +6,7 @@ import com.db.votacao.models.Associado;
 import com.db.votacao.models.Sessao;
 import com.db.votacao.models.Voto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class VotoMapper {
@@ -14,7 +15,7 @@ public class VotoMapper {
         voto.setSessao(sessao);
         voto.setAssociado(associado);
         voto.setTipoVoto(votoRequestDTO.tipoVoto());
-        voto.setDataVotacao(LocalDateTime.now());
+        voto.setDataVotacao(LocalDate.now());
         return voto;
     }
 

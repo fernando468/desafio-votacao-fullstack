@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -51,8 +52,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
-        sessao.setDataFim(LocalDateTime.now().plusYears(1));
+        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
+        sessao.setDataFim(LocalDate.now().plusYears(1));
 
         Associado associado = new Associado();
         associado.setId(associadoId);
@@ -60,7 +61,7 @@ public class VotoServiceTest {
 
         Voto votoSalvo = new Voto();
         votoSalvo.setId(1L);
-        votoSalvo.setDataVotacao(LocalDateTime.now());
+        votoSalvo.setDataVotacao(LocalDate.now());
         votoSalvo.setTipoVoto(request.tipoVoto());
         votoSalvo.setAssociado(associado);
         votoSalvo.setSessao(sessao);
@@ -94,8 +95,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
-        sessao.setDataFim(LocalDateTime.of(2026, Month.JANUARY, 30, 0, 0));
+        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
+        sessao.setDataFim(LocalDate.of(2026, Month.JANUARY, 30));
 
         Associado associado = new Associado();
         associado.setId(associadoId);
@@ -125,8 +126,8 @@ public class VotoServiceTest {
 
         Sessao sessao = new Sessao();
         sessao.setPauta(pauta);
-        sessao.setDataInicio(LocalDateTime.of(2026, Month.JANUARY, 1, 0, 0));
-        sessao.setDataFim(LocalDateTime.now().plusYears(1));
+        sessao.setDataInicio(LocalDate.of(2026, Month.JANUARY, 1));
+        sessao.setDataFim(LocalDate.now().plusYears(1));
 
         Associado associado = new Associado();
         associado.setId(associadoId);
