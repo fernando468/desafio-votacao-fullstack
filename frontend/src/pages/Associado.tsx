@@ -2,29 +2,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import CustomButton from "../components/custom-button/CustomButton";
 import Modal from "../components/modal/Modal";
-import PautaCard from "../components/partials/pauta/card/PautaCard";
-import PautaForm from "../components/partials/pauta/form/PautaForm";
-import { schemaPautaFormData } from "../components/partials/pauta/pauta.schema";
-import PautaService from "../services/pauta.service";
-import type { PautaRequest, PautaResponse } from "../types/pauta.type";
+import { schemaAssociadoFormData } from "../components/partials/associado/associado.schema";
+import AssociadoCard from "../components/partials/associado/card/AssociadoCard";
+import AssociadoForm from "../components/partials/associado/form/AssociadoForm";
+import AssociadoService from "../services/pauta.service copy";
+import type {
+  AssociadoRequest,
+  AssociadoResponse,
+} from "../types/associado.type";
 
-const pautaService = new PautaService();
-
-export default function Pauta() {
+export default function Associado() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [pagina, setPagina] = useState(0);
   const tamanho = 10;
   const [totalPaginas, setTotalPaginas] = useState(0);
-  const [pautas, setPautas] = useState<PautaResponse[]>([]);
-  const { control, reset } = useForm<PautaRequest>({
+  const [associados, setAssociados] = useState<AssociadoResponse[]>([]);
+  const { control, reset } = useForm<AssociadoRequest>({
     defaultValues: {
-      descricao: "",
-      titulo: "",
+      cpf: "",
     },
-    resolver: zodResolver(schemaPautaFormData),
+    resolver: zodResolver(schemaAssociadoFormData),
   });
+  const associadoService = new AssociadoService();
+
   const toggleModal = () => {
     setAbrirModal(!abrirModal);
     reset();
@@ -33,22 +36,27 @@ export default function Pauta() {
   const handleCriarOuEditarSubmit = async ({
     data,
   }: {
-    data: PautaRequest;
+    data: AssociadoRequest;
   }) => {
-    const response = await pautaService.post(data);
-    if (response) {
-      toggleModal();
-      getPautasPage();
-    }
+    await associadoService
+      .post(data)
+      .then(() => {
+        toast.success("Associado criado com sucesso!");
+        toggleModal();
+        getPautasPage();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
   const getPautasPage = async () => {
-    const response = await pautaService.getPage({
+    const response = await associadoService.getPage({
       pagina: pagina,
       tamanho: tamanho,
     });
     if (response) {
-      setPautas(response.content);
+      setAssociados(response.content);
       setTotalPaginas(response.totalPages);
     }
   };
@@ -69,11 +77,11 @@ export default function Pauta() {
     >
       <Grid sx={{ width: "100%" }}>
         <CustomButton variant="contained" color="primary" onClick={toggleModal}>
-          Criar Pauta
+          Criar Associado
         </CustomButton>
       </Grid>
       <Grid sx={{ width: "100%" }}>
-        <PautaCard pautas={pautas} />
+        <AssociadoCard associados={associados} />
       </Grid>
       <Grid
         sx={{
@@ -92,9 +100,12 @@ export default function Pauta() {
         />
       </Grid>
       <Modal
-        title="Criar Pauta"
+        title="Criar Associado"
         content={
-          <PautaForm control={control} onSubmit={handleCriarOuEditarSubmit} />
+          <AssociadoForm
+            control={control}
+            onSubmit={handleCriarOuEditarSubmit}
+          />
         }
         openDialog={abrirModal}
         textConfirm="Confirmar"
@@ -102,7 +113,7 @@ export default function Pauta() {
         actionButtonConfirm={() => {}}
         actionButtonCancel={toggleModal}
         colorButton="primary"
-        formId="form-criar-pauta"
+        formId="form-criar-associado"
       />
     </Grid>
   );

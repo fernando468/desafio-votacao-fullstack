@@ -1,0 +1,42 @@
+import { Grid } from "@mui/material";
+import { Form, type Control, type FormSubmitHandler } from "react-hook-form";
+import type { AssociadoRequest } from "../../../../types/associado.type";
+import CustomFormTextField from "../../../custom-text-field/CustomTextField";
+
+type AssociadoFormProps = {
+  onSubmit?: FormSubmitHandler<AssociadoRequest>;
+  control: Control<AssociadoRequest>;
+};
+
+export default function AssociadoForm({
+  control,
+  onSubmit,
+}: AssociadoFormProps) {
+  return (
+    <Grid container spacing={2}>
+      <Grid>
+        <Form control={control} id="form-criar-associado" onSubmit={onSubmit}>
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
+            <Grid>
+              <CustomFormTextField
+                name="cpf"
+                label="CPF"
+                type="number"
+                placeholder="CPF"
+                maxLength={11}
+                minLength={11}
+                control={control}
+                required
+                number
+              />
+            </Grid>
+          </Grid>
+        </Form>
+      </Grid>
+    </Grid>
+  );
+}

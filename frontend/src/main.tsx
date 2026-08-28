@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "sonner";
 import Sidebar from "./components/sidebar/Sidebar.tsx";
 import "./index.css";
-import Inicio from "./pages/Inicio.tsx";
+import Associado from "./pages/Associado.tsx";
 import Pauta from "./pages/Pauta.tsx";
 import Sessao from "./pages/Sessao.tsx";
-import Votacao from "./pages/Votacao.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -15,16 +15,13 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Inicio />,
+        element: <Associado />,
       },
       {
         path: "sessao",
         element: <Sessao />,
       },
-      {
-        path: "votacao",
-        element: <Votacao />,
-      },
+
       {
         path: "pauta",
         element: <Pauta />,
@@ -35,6 +32,7 @@ const routes = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Toaster position="top-center" duration={3000} closeButton richColors />
     <RouterProvider router={routes} />
   </StrictMode>,
 );

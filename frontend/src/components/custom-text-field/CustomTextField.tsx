@@ -10,7 +10,6 @@ type FormTextFieldProps = {
   type: Type;
   placeholder: string;
   control: any;
-  currency?: boolean;
   fullWidth?: boolean;
   required?: boolean;
   min?: number;
@@ -20,6 +19,7 @@ type FormTextFieldProps = {
   endAdornment?: JSX.Element;
   startAdornment?: JSX.Element;
   size?: "small" | "medium";
+  number?: boolean;
 };
 
 export default function CustomFormTextField({
@@ -28,7 +28,6 @@ export default function CustomFormTextField({
   type,
   placeholder,
   control,
-  currency,
   min,
   max,
   minLength,
@@ -38,6 +37,7 @@ export default function CustomFormTextField({
   endAdornment,
   startAdornment,
   size = "small",
+  number,
 }: FormTextFieldProps) {
   return (
     <Controller
@@ -46,37 +46,26 @@ export default function CustomFormTextField({
       render={({ field: { onChange, value, ...fieldProps }, fieldState }) => {
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           const rawValue = event.target.value;
+          const valueWithoutNumbers =
+            type === "number" || number
+              ? rawValue.replace(/\D/g, "")
+              : type === "date"
+                ? rawValue
+                : rawValue.replace(/\d/g, "");
 
-          if (currency) {
-            // 1. Remove tudo que não for dígito
-            const digitsOnly = rawValue.replace(/\D/g, "");
-
-            // 2. Se tiver vazio, define como 0, se não, converte para número
-            // Salvamos como centavos ou float. Aqui vou salvar como float (ex: 1200.00)
-            const numericValue = digitsOnly ? parseFloat(digitsOnly) / 100 : 0;
-
-            // 3. Atualiza o React Hook Form com o NÚMERO limpo
-            onChange(numericValue);
-          } else {
-            onChange(rawValue);
-          }
+          onChange(
+            maxLength
+              ? valueWithoutNumbers.slice(0, maxLength)
+              : valueWithoutNumbers,
+          );
         };
-
-        // Formatação visual para o usuário
-        const displayedValue =
-          currency && value !== undefined && value !== null
-            ? new Intl.NumberFormat("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }).format(Number(value))
-            : (value ?? "");
 
         return (
           <TextField
             {...fieldProps}
-            value={displayedValue}
+            value={value ?? ""}
             onChange={handleChange}
-            type={currency ? "text" : type}
+            type={type}
             placeholder={placeholder}
             className="input"
             aria-label={label}
@@ -92,7 +81,7 @@ export default function CustomFormTextField({
                 max: max,
                 minLength: minLength,
                 maxLength: maxLength,
-                inputMode: currency ? "numeric" : "text",
+                inputMode: type === "number" || number ? "numeric" : undefined,
               },
               input: {
                 endAdornment: endAdornment,

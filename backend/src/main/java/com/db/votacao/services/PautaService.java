@@ -31,7 +31,7 @@ public class PautaService extends PaginacaoService {
         return PautaMapper.toResponseDTO(pautaCriada);
     }
 
-    public Page<PautaResponseDTO> buscarPautas(int pagina, int tamanho) {
+    public Page<PautaResponseDTO> buscarPautaPaginado(int pagina, int tamanho) {
         LOGGER.info("Iniciando - buscar pautas (pagina={}, tamanho={})", pagina, tamanho);
         Page<PautaResponseDTO> pautas = paginar(Pauta.class, pagina, tamanho, "id", Sort.Direction.ASC, PautaMapper::toResponseDTO);
         LOGGER.info("Encerrado - buscar pautas (pagina={}, tamanho={}, total={})", pagina, tamanho, pautas.getTotalElements());

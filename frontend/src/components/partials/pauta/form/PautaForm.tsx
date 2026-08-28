@@ -5,7 +5,7 @@ import CustomFormTextField from "../../../custom-text-field/CustomTextField";
 
 type PautaFormProps = {
   onSubmit?: FormSubmitHandler<PautaRequest>;
-  control: Control<PautaRequest, any, PautaRequest>;
+  control: Control<PautaRequest>;
 };
 
 export default function PautaForm({ control, onSubmit }: PautaFormProps) {
@@ -23,6 +23,8 @@ export default function PautaForm({ control, onSubmit }: PautaFormProps) {
                 name="titulo"
                 label="Título"
                 type="text"
+                minLength={3}
+                maxLength={30}
                 placeholder="Título"
                 control={control}
                 required
@@ -33,6 +35,8 @@ export default function PautaForm({ control, onSubmit }: PautaFormProps) {
                 name="descricao"
                 label="Descrição"
                 type="text"
+                minLength={3}
+                maxLength={150}
                 placeholder="Descrição"
                 control={control}
                 required

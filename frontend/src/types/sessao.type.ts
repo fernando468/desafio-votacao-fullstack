@@ -8,9 +8,8 @@ export type SessaoRequest = {
 
 export type SessaoResponse = {
   id: number;
-  associadoId: number;
-  sessaoId: number;
-  dataCriacao: string;
-  dataVotacao: string;
+  dataInicio: string;
+  dataFim: string;
+  isAberta: boolean;
   pauta: PautaResponse;
 };

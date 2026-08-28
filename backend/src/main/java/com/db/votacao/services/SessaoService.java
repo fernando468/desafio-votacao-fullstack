@@ -1,11 +1,9 @@
 package com.db.votacao.services;
 
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
-import com.db.votacao.dtos.responses.PautaResponseDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.BadRequestException;
 import com.db.votacao.exceptions.NotFoundException;
-import com.db.votacao.mappers.PautaMapper;
 import com.db.votacao.mappers.SessaoMapper;
 import com.db.votacao.models.Pauta;
 import com.db.votacao.models.Sessao;
@@ -42,7 +40,7 @@ public class SessaoService extends PaginacaoService {
         return SessaoMapper.toResponseDTO(sessaoCriada);
     }
 
-    public Page<SessaoResponseDTO> buscarPautas(int pagina, int tamanho) {
+    public Page<SessaoResponseDTO> buscarSessaoPaginado(int pagina, int tamanho) {
         LOGGER.info("Iniciando - buscar sessão (pagina={}, tamanho={})", pagina, tamanho);
         Page<SessaoResponseDTO> sessao = paginar(Sessao.class, pagina, tamanho, "id", Sort.Direction.ASC, SessaoMapper::toResponseDTO);
         LOGGER.info("Encerrado - buscar sessão (pagina={}, tamanho={}, total={})", pagina, tamanho, sessao.getTotalElements());

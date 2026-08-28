@@ -3,7 +3,6 @@ package com.db.votacao.controllers;
 import com.db.votacao.configs.InternalServerErrorResponse;
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.ErroResponseDTO;
-import com.db.votacao.dtos.responses.PautaResponseDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.BadRequestException;
 import com.db.votacao.exceptions.NotFoundException;
@@ -55,6 +54,6 @@ public class SessaoController {
             @RequestParam(name = "pagina") Integer pagina,
             @RequestParam(name = "tamanho") Integer tamanho
     ) {
-        return ResponseEntity.ok(sessaoService.buscarPautas(pagina, tamanho));
+        return ResponseEntity.ok(sessaoService.buscarSessaoPaginado(pagina, tamanho));
     }
 }

@@ -39,10 +39,10 @@ public class PautaController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Listagem das pautas")
     })
-    public ResponseEntity<?> buscarPaginado(
+    public ResponseEntity<?> buscarPautaPaginado(
             @RequestParam(name = "pagina") Integer pagina,
             @RequestParam(name = "tamanho") Integer tamanho
     ) {
-        return ResponseEntity.ok(pautaService.buscarPautas(pagina, tamanho));
+        return ResponseEntity.ok(pautaService.buscarPautaPaginado(pagina, tamanho));
     }
 }

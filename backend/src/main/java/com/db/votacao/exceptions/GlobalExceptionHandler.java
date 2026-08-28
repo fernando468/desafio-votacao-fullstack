@@ -63,6 +63,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErroResponseDTO> handleNotFound(
+            BadRequestException ex,
+            HttpServletRequest request
+    ) {
+        LOGGER.error("Erro BadRequestException: {}", ex.getMessage());
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Bad Request",
+                ex.getMessage(),
+                request.getRequestURI(),
+                List.of()
+        );
+    }
+
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErroResponseDTO> handleConflict(
             ConflictException ex,

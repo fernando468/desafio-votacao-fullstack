@@ -1,5 +1,5 @@
 import type { JSX } from "@emotion/react/jsx-runtime";
-import { Assignment, Home, HowToVote, PlayCircle } from "@mui/icons-material";
+import { Assignment, Home, PlayCircle } from "@mui/icons-material";
 import {
   Box,
   Drawer,
@@ -22,10 +22,9 @@ type MenuItem = {
 };
 
 const menuItems: MenuItem[] = [
-  { name: "Ínicio", path: "/", icon: <Home /> },
+  { name: "Associado", path: "/", icon: <Home /> },
   { name: "Pauta", path: "/pauta", icon: <Assignment /> },
   { name: "Sessão", path: "/sessao", icon: <PlayCircle /> },
-  { name: "Votação", path: "/votacao", icon: <HowToVote /> },
 ];
 
 export default function Sidebar() {

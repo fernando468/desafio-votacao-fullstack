@@ -2,20 +2,26 @@ package com.db.votacao.services;
 
 import com.db.votacao.dtos.requests.AssociadoRequestDTO;
 import com.db.votacao.dtos.responses.AssociadoResponseDTO;
+import com.db.votacao.dtos.responses.PautaResponseDTO;
+import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.ConflictException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.mappers.AssociadoMapper;
+import com.db.votacao.mappers.PautaMapper;
 import com.db.votacao.models.Associado;
+import com.db.votacao.models.Pauta;
 import com.db.votacao.repositories.AssociadoRepository;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class AssociadoService {
+public class AssociadoService extends PaginacaoService {
     private final AssociadoRepository associadoRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(AssociadoService.class.getName());
 
@@ -53,5 +59,12 @@ public class AssociadoService {
 
         LOGGER.info("Encerrado - buscar associado com o id: {}", id);
         return associado;
+    }
+
+    public Page<AssociadoResponseDTO> buscarAssociadoPaginado(Integer pagina, Integer tamanho) {
+        LOGGER.info("Iniciando - buscar associados (pagina={}, tamanho={})", pagina, tamanho);
+        Page<AssociadoResponseDTO> associados = paginar(Associado.class, pagina, tamanho, "id", Sort.Direction.ASC, AssociadoMapper::toResponseDTO);
+        LOGGER.info("Encerrado - buscar associados (pagina={}, tamanho={}, total={})", pagina, tamanho, associados.getTotalElements());
+        return associados;
     }
 }
