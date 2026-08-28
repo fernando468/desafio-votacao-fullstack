@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal Server Error",
-                ex.getMessage(),
+                "Erro Interno no Servidor",
                 request.getRequestURI(),
                 List.of()
         );
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal Server Error",
-                ex.getMessage(),
+                "Erro Interno no Servidor",
                 request.getRequestURI(),
                 List.of()
         );

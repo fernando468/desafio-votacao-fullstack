@@ -62,6 +62,7 @@ export default function Sessao() {
       pagina: pagina,
       tamanho: tamanho,
     });
+    console.log(response);
     if (response) {
       setSessoes(response.content);
       setTotalPaginas(response.totalPages);
