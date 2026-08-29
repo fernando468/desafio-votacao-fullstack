@@ -18,6 +18,7 @@ type ModalProps = {
   actionButtonCancel: () => void;
   colorButton?: "primary" | "secondary" | "error" | "info" | "success";
   formId?: string;
+  isLoading?: boolean;
 };
 
 export default function Modal({
@@ -30,6 +31,7 @@ export default function Modal({
   actionButtonCancel,
   colorButton,
   formId,
+  isLoading = false,
 }: ModalProps) {
   const isFormSubmit = Boolean(formId);
 
@@ -57,11 +59,16 @@ export default function Modal({
             type={isFormSubmit ? "submit" : "button"}
             form={formId}
             variant="contained"
+            loading={isLoading}
             onClick={isFormSubmit ? undefined : actionButtonConfirm}
           >
             {textConfirm}
           </CustomButton>
-          <CustomButton onClick={actionButtonCancel} variant="outlined">
+          <CustomButton
+            onClick={actionButtonCancel}
+            variant="outlined"
+            loading={isLoading}
+          >
             {textCancel}
           </CustomButton>
         </DialogActions>

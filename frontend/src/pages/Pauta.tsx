@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import CustomButton from "../components/custom-button/CustomButton";
 import Modal from "../components/modal/Modal";
 import PautaCard from "../components/partials/pauta/card/PautaCard";
@@ -17,6 +18,7 @@ export default function Pauta() {
   const [pagina, setPagina] = useState(0);
   const tamanho = 10;
   const [totalPaginas, setTotalPaginas] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [pautas, setPautas] = useState<PautaResponse[]>([]);
   const { control, reset } = useForm<PautaRequest>({
     defaultValues: {
@@ -35,11 +37,23 @@ export default function Pauta() {
   }: {
     data: PautaRequest;
   }) => {
-    const response = await pautaService.post(data);
-    if (response) {
-      toggleModal();
-      getPautasPage();
-    }
+    setIsLoading(true);
+
+    await pautaService
+      .post(data)
+      .then(() => {
+        toggleModal();
+        getPautasPage();
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const isErroTitulo = error.response.data.details[0].includes("Titulo");
+        const mensagem = isErroTitulo
+          ? "Titulo Inválido"
+          : error.response.data.message;
+        toast.error(mensagem);
+        setIsLoading(false);
+      });
   };
 
   const getPautasPage = async () => {
@@ -65,7 +79,7 @@ export default function Pauta() {
     <Grid
       container
       spacing={2}
-      sx={{ minHeight: "calc(100vh - 32px)", flexDirection: "column" }}
+      sx={{ minHeight: "100vh", flexDirection: "column" }}
     >
       <Grid sx={{ width: "100%" }}>
         <CustomButton variant="contained" color="primary" onClick={toggleModal}>
@@ -80,8 +94,6 @@ export default function Pauta() {
           display: "flex",
           justifyContent: "center",
           width: "100%",
-          marginTop: "auto",
-          paddingTop: 2,
         }}
       >
         <Pagination
@@ -103,6 +115,7 @@ export default function Pauta() {
         actionButtonCancel={toggleModal}
         colorButton="primary"
         formId="form-criar-pauta"
+        isLoading={isLoading}
       />
     </Grid>
   );

@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import CustomButton from "../components/custom-button/CustomButton";
 import Modal from "../components/modal/Modal";
-import { schemaAssociadoFormData } from "../components/partials/associado/associado.schema";
+import {
+  schemaAssociadoFormData,
+  type AssociadoFormDataInput,
+  type AssociadoFormDataOutput,
+} from "../components/partials/associado/associado.schema";
 import AssociadoCard from "../components/partials/associado/card/AssociadoCard";
 import AssociadoForm from "../components/partials/associado/form/AssociadoForm";
 import AssociadoService from "../services/associado.service";
@@ -17,10 +21,15 @@ import type {
 export default function Associado() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [pagina, setPagina] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const tamanho = 10;
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [associados, setAssociados] = useState<AssociadoResponse[]>([]);
-  const { control, reset } = useForm<AssociadoRequest>({
+  const { control, reset } = useForm<
+    AssociadoFormDataInput,
+    any,
+    AssociadoFormDataOutput
+  >({
     defaultValues: {
       cpf: "",
     },
@@ -38,12 +47,15 @@ export default function Associado() {
   }: {
     data: AssociadoRequest;
   }) => {
+    setIsLoading(true);
+
     await associadoService
       .post(data)
       .then(() => {
         toast.success("Associado criado com sucesso!");
         toggleModal();
         getPautasPage();
+        setIsLoading(false);
       })
       .catch((error) => {
         const isErroCpf = error.response.data.details[0].includes("CPF");
@@ -52,6 +64,7 @@ export default function Associado() {
           ? "CPF Inválido"
           : error.response.data.message;
         toast.error(mensagem);
+        setIsLoading(false);
       });
   };
 
@@ -78,7 +91,7 @@ export default function Associado() {
     <Grid
       container
       spacing={2}
-      sx={{ minHeight: "calc(100vh - 32px)", flexDirection: "column" }}
+      sx={{ minHeight: "100vh", flexDirection: "column" }}
     >
       <Grid sx={{ width: "100%" }}>
         <CustomButton variant="contained" color="primary" onClick={toggleModal}>
@@ -93,8 +106,6 @@ export default function Associado() {
           display: "flex",
           justifyContent: "center",
           width: "100%",
-          marginTop: "auto",
-          paddingTop: 2,
         }}
       >
         <Pagination
@@ -119,6 +130,7 @@ export default function Associado() {
         actionButtonCancel={toggleModal}
         colorButton="primary"
         formId="form-criar-associado"
+        isLoading={isLoading}
       />
     </Grid>
   );

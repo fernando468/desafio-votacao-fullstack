@@ -5,6 +5,12 @@ const schemaAssociadoFormData = z.object({
 });
 
 type AssociadoFormData = z.infer<typeof schemaAssociadoFormData>;
+type AssociadoFormDataInput = z.input<typeof schemaAssociadoFormData>;
+type AssociadoFormDataOutput = z.output<typeof schemaAssociadoFormData>;
 
 export { schemaAssociadoFormData };
-export type { AssociadoFormData };
+export type {
+  AssociadoFormData,
+  AssociadoFormDataInput,
+  AssociadoFormDataOutput,
+};

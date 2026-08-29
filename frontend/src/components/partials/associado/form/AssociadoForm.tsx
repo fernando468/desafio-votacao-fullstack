@@ -2,10 +2,14 @@ import { Grid } from "@mui/material";
 import { Form, type Control, type FormSubmitHandler } from "react-hook-form";
 import type { AssociadoRequest } from "../../../../types/associado.type";
 import CustomFormTextField from "../../../custom-text-field/CustomTextField";
+import type {
+  AssociadoFormDataInput,
+  AssociadoFormDataOutput,
+} from "../associado.schema";
 
 type AssociadoFormProps = {
   onSubmit?: FormSubmitHandler<AssociadoRequest>;
-  control: Control<AssociadoRequest>;
+  control: Control<AssociadoFormDataInput, any, AssociadoFormDataOutput>;
 };
 
 export default function AssociadoForm({

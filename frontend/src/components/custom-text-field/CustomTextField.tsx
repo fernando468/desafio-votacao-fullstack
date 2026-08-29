@@ -43,7 +43,6 @@ export default function CustomFormTextField({
   startAdornment,
   size = "small",
 }: FormTextFieldProps) {
-  const shouldShrinkLabel = type === "date" || type === "datetime-local";
   return (
     <Controller
       control={control}

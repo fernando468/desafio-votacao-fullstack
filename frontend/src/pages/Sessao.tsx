@@ -32,6 +32,7 @@ export default function Sessao() {
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [sessoes, setSessoes] = useState<SessaoResponse[]>([]);
   const [associados, setAssociados] = useState<AssociadoResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const sessaoService = new SessaoService();
   const pautaService = new PautaService();
   const associadoService = new AssociadoService();
@@ -46,10 +47,10 @@ export default function Sessao() {
   }: {
     data: SessaoRequest;
   }) => {
-    console.log(data.dataInicio);
+    setIsLoading(true);
+
     const dataInicio = new Date(data.dataInicio);
     const agora = new Date();
-    console.log(dataInicio, agora);
     const resultado = format(
       set(dataInicio, {
         hours: agora.getHours(),
@@ -60,8 +61,6 @@ export default function Sessao() {
       "yyyy-MM-dd'T'HH:mm:ss.SSS",
     );
 
-    console.log(resultado);
-
     await sessaoService
       .post({
         ...data,
@@ -71,9 +70,11 @@ export default function Sessao() {
         toast.success("Sessão criada com sucesso!");
         toggleModal();
         getSessoesPage();
+        setIsLoading(false);
       })
       .catch((error) => {
         toast.error(error.response.data.message);
+        setIsLoading(false);
       });
   };
 
@@ -137,7 +138,7 @@ export default function Sessao() {
     <Grid
       container
       spacing={2}
-      sx={{ minHeight: "calc(100vh - 32px)", flexDirection: "column" }}
+      sx={{ minHeight: "100vh", flexDirection: "column" }}
     >
       <Grid sx={{ width: "100%" }}>
         <CustomButton variant="contained" color="primary" onClick={toggleModal}>
@@ -152,8 +153,6 @@ export default function Sessao() {
           display: "flex",
           justifyContent: "center",
           width: "100%",
-          marginTop: "auto",
-          paddingTop: 2,
         }}
       >
         <Pagination
@@ -179,6 +178,7 @@ export default function Sessao() {
         actionButtonCancel={toggleModal}
         colorButton="primary"
         formId="form-criar-sessao"
+        isLoading={isLoading}
       />
     </Grid>
   );
