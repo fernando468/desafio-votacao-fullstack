@@ -1,16 +1,28 @@
 ## Tecnologias utilizadas
 
-- React
+- React Versão: 19.2.8
 - Typescript
-- Material UI
+- Material UI Versão: 9.3.1
 - Axios
 - Vite
+- Zod
+- React Hook Form
+- Sonner
+- Date-fns
+- React Router Dom
 
-## Ferramentas necessárias
+## Como rodar a aplicação
 
-- Node >= v24.13.0
+Requisitos: Node.js >= v24.13.0
 
-## Rodar aplicação no local pela linha de comando
+```bash
+cd frontend
+```
 
-- `npm install`
-- `npm run dev`
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```

@@ -24,6 +24,9 @@
 - Vite
 - Zod
 - React Hook Form
+- Sonner
+- Date-fns
+- React Router Dom
 
 ## Teconlogias utilizadas para infraestrutura
 
@@ -56,7 +59,8 @@ mvn spring-boot:run
 
 - Para rodar os testes: `mvn test`
 - Para acessar a API: [http://localhost:8080/api](http://localhost:8080/api)
-- Paraa acessar o Swagger: [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
+- Para acessar o Swagger: [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
+- Para acessar o banco de dados: [http://localhost:5432/votacao](http://localhost:5432/votacao)
 
 ## Frontend
 
@@ -100,6 +104,7 @@ No diretório do projeto ou na pasta onde o arquivo `voting.js` está localizado
 
 ```bash
 cd.. (Se não estiver na pasta raiz do projeto)
+cd performance
 ```
 
 ```bash
@@ -116,15 +121,34 @@ Esse comando:
 
 - O script envia requisições para a API em `http://host.docker.internal:8081/api/votos`.
 - O cenário configurado simula `200 usuários virtuais` e `50 iterações por usuário`.
-- O teste também define thresholds para:
-  - `http_req_duration` com p(95) menor que `1000ms`
-  - `http_req_failed` com taxa menor que `5%`
 
-## Arquivos relevantes
+# Explicações das decisões
 
-- `voting.js` — cenário de teste de performance
-- `summary.html` — relatório gerado pelo k6
+### Versionamento da API [Tarefa bônus 3]
 
-## Dica
+- A API utiliza o versionamento na URL, por exemplo: `/api/XXXXX/v1/` para facilitar a manutenção do projeto. Conforme a API evolui, a versão pode ser incrementada e o cliente autaliza para consumir a nova versão. Essa estratégia facilita para manter a compatibilidade com o cliente.
 
-Para rodar tudo em sequência, mantenha o backend aberto em um terminal e execute o comando do Docker em outro terminal.
+### Estrutura do Backend
+
+- O backend utiliza o padrão de pastas com controllers, services, models, repository, mappers, configs e DTOs. A regra de negoócio fica no serviço e o controller é responsável por chamar o serviço que contem a lógica de negócio.
+
+- Para testes foi utilizado o framework JUnit. Testes foram realizados no service para validar a lógica de
+  negócio e também testes nos DTOs para validar se os objetos estão com as anotações de validação corretas.
+
+- Para documentar a API foi utilizado o Swagger. O swagger facilita a documentação da API e permite o cliente ver os endpoints e o que precisa ser passado para cada endpoint.
+
+### Tratamento de exceções
+
+- Para tratar as exeções foi utilizado o `@RestControllerAdvice`. Essa classe é responsável por centralizar o tratamento de exeções para retornar uma mensagem de erro padrão.
+
+### Estrutura do Frontend
+
+- O frontend utiliza o padrão de pastas com components, pages, services, types, utils, hooks, context e styles. Os componentes são para permitir a reutilização de código, enquanto as regras ficam separadas em páginas.
+
+### Estrutura do Banco de Dados
+
+- O banco de dados utilizado é o PostgreSQL. Foi utilizado pelo bom desempenho e por ser um banco de dados relacional a integridade dos dados é garantida por chaves primarias e chaves estrangeiras .
+
+### Estrutura do Teste de Performance [Tarefa bônus 2]
+
+- Para realizar o teste de performance, foi utilizado o framework k6. O cenário testa com 200 usuários virtuais e 50 iterações por usuário e após o teste é gerado um relatório html com os resultados. Foi criado também uma base de dados para o teste de performance. Quando é iniciada a aplicação são criados associados, pautas e sessões para quando o testes for executado ele não precisar criar esses dados só para realizar a votação.
