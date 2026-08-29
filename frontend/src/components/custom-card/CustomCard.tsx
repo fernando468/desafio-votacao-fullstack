@@ -14,8 +14,8 @@ type CustomCardProps = {
 export default function CustomCard({ data }: CustomCardProps) {
   return (
     <Grid container spacing={2}>
-      {data?.map((data) => (
-        <Grid key={data.id} size={custoStyleCard.size}>
+      {data?.map((data, index) => (
+        <Grid key={`${data.id}-${index}`} size={custoStyleCard.size}>
           <Card sx={custoStyleCard.card}>
             <CardContent>
               <Typography variant="h5" component="div">
