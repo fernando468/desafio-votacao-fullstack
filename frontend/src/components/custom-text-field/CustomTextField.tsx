@@ -2,7 +2,13 @@ import type { JSX } from "@emotion/react/jsx-runtime";
 import { TextField } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-type Type = "text" | "password" | "email" | "numeric" | "date";
+type Type =
+  | "text"
+  | "password"
+  | "email"
+  | "numeric"
+  | "date"
+  | "datetime-local";
 
 type FormTextFieldProps = {
   name: string;
@@ -37,6 +43,7 @@ export default function CustomFormTextField({
   startAdornment,
   size = "small",
 }: FormTextFieldProps) {
+  const shouldShrinkLabel = type === "date" || type === "datetime-local";
   return (
     <Controller
       control={control}
@@ -77,6 +84,12 @@ export default function CustomFormTextField({
             required={required}
             size={size}
             slotProps={{
+              inputLabel: {
+                shrink:
+                  type === "date" || type === "datetime-local"
+                    ? true
+                    : undefined,
+              },
               htmlInput: {
                 min: min,
                 max: max,

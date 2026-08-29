@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid, Pagination } from "@mui/material";
-import { set } from "date-fns";
+import { format, set } from "date-fns";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ export default function Sessao() {
       dataInicio: "",
       pautaId: 1,
     },
-    resolver: zodResolver(schemaSessaoFormData as any),
+    resolver: zodResolver(schemaSessaoFormData),
   });
   const [pagina, setPagina] = useState(0);
   const tamanho = 10;
@@ -46,15 +46,21 @@ export default function Sessao() {
   }: {
     data: SessaoRequest;
   }) => {
+    console.log(data.dataInicio);
     const dataInicio = new Date(data.dataInicio);
     const agora = new Date();
+    console.log(dataInicio, agora);
+    const resultado = format(
+      set(dataInicio, {
+        hours: agora.getHours(),
+        minutes: agora.getMinutes(),
+        seconds: agora.getSeconds(),
+        milliseconds: agora.getMilliseconds(),
+      }),
+      "yyyy-MM-dd'T'HH:mm:ss.SSS",
+    );
 
-    const resultado = set(dataInicio, {
-      hours: agora.getHours(),
-      minutes: agora.getMinutes(),
-      seconds: agora.getSeconds(),
-      milliseconds: agora.getMilliseconds(),
-    }).toISOString();
+    console.log(resultado);
 
     await sessaoService
       .post({

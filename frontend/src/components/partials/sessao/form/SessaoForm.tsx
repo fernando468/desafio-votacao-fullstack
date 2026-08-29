@@ -39,7 +39,7 @@ export default function SessaoForm({
               <CustomFormTextField
                 name="dataInicio"
                 label="Data de Início"
-                type="date"
+                type="datetime-local"
                 placeholder="Data de Início"
                 control={control}
                 required

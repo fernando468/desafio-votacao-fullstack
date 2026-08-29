@@ -30,11 +30,11 @@ public class Voto extends BaseEntity {
     private LocalDate dataVotacao;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "associado_id")
+    @JoinColumn(name = "associado_id", nullable = false)
     private Associado associado;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "sessao_id")
+    @JoinColumn(name = "sessao_id", nullable = false)
     private Sessao sessao;
 
     public Long getId() {
