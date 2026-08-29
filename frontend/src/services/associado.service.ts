@@ -9,6 +9,6 @@ export default class AssociadoService extends BaseService<
   AssociadoResponse
 > {
   constructor() {
-    super("/associados");
+    super("/associados/v1");
   }
 }

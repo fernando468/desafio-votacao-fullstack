@@ -8,7 +8,7 @@ import Modal from "../components/modal/Modal";
 import { schemaAssociadoFormData } from "../components/partials/associado/associado.schema";
 import AssociadoCard from "../components/partials/associado/card/AssociadoCard";
 import AssociadoForm from "../components/partials/associado/form/AssociadoForm";
-import AssociadoService from "../services/pauta.service copy";
+import AssociadoService from "../services/associado.service";
 import type {
   AssociadoRequest,
   AssociadoResponse,

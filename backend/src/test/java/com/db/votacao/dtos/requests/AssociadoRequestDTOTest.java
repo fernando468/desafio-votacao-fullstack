@@ -21,7 +21,7 @@ public class AssociadoRequestDTOTest {
 
     @Test
     public void deveSerValidoQuandoCamposForemPreenchidos() {
-        AssociadoRequestDTO dto = new AssociadoRequestDTO("12345678910");
+        AssociadoRequestDTO dto = new AssociadoRequestDTO("88871221052");
 
         Set<ConstraintViolation<AssociadoRequestDTO>> violations = validator.validate(dto);
 

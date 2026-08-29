@@ -1,4 +1,4 @@
-package com.db.votacao.controllers;
+package com.db.votacao.controllers.v1;
 
 import com.db.votacao.configs.InternalServerErrorResponse;
 import com.db.votacao.dtos.requests.PautaRequestDTO;
@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pautas")
+@RequestMapping("/pautas/v1")
 @Tag(name = "Pautas", description = "Endpoints das pautas")
 public class PautaController {
     private final PautaService pautaService;

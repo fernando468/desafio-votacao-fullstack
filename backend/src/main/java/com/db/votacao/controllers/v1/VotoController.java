@@ -1,4 +1,4 @@
-package com.db.votacao.controllers;
+package com.db.votacao.controllers.v1;
 
 import com.db.votacao.configs.InternalServerErrorResponse;
 import com.db.votacao.dtos.requests.VotoRequestDTO;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/votos")
+@RequestMapping("/votos/v1")
 @Tag(name = "Votos", description = "Endpoints dos votos")
 public class VotoController {
     private final VotoService votoService;

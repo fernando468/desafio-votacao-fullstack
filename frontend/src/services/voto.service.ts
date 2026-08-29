@@ -6,6 +6,6 @@ export default class VotoService extends BaseService<
   VotoResponse
 > {
   constructor() {
-    super("/votos");
+    super("/votos/v1");
   }
 }

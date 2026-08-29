@@ -6,6 +6,6 @@ export default class PautaService extends BaseService<
   PautaResponse
 > {
   constructor() {
-    super("/pautas");
+    super("/pautas/v1");
   }
 }

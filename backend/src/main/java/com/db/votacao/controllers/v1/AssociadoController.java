@@ -1,4 +1,4 @@
-package com.db.votacao.controllers;
+package com.db.votacao.controllers.v1;
 
 import com.db.votacao.configs.InternalServerErrorResponse;
 import com.db.votacao.dtos.requests.AssociadoRequestDTO;
@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/associados")
+@RequestMapping("/associados/v1")
 @Tag(name = "Associados", description = "Endpoints dos associados")
 public class AssociadoController {
     private final AssociadoService associadoService;

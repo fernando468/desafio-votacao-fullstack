@@ -1,4 +1,4 @@
-package com.db.votacao.controllers;
+package com.db.votacao.controllers.v1;
 
 import com.db.votacao.configs.InternalServerErrorResponse;
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sessoes")
+@RequestMapping("/sessoes/v1")
 @Tag(name = "Sessões", description = "Endpoints das sessões")
 public class SessaoController {
     private final SessaoService sessaoService;

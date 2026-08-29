@@ -6,6 +6,6 @@ export default class SessaoService extends BaseService<
   SessaoResponse
 > {
   constructor() {
-    super("/sessoes");
+    super("/sessoes/v1");
   }
 }
