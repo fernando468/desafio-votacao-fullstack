@@ -46,7 +46,12 @@ export default function Associado() {
         getPautasPage();
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        const isErroCpf = error.response.data.details[0].includes("CPF");
+        console.log(error.response.data.details);
+        const mensagem = isErroCpf
+          ? "CPF Inválido"
+          : error.response.data.message;
+        toast.error(mensagem);
       });
   };
 

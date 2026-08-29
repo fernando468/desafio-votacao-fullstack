@@ -44,12 +44,10 @@ export default function CustomFormTextField({
       render={({ field: { onChange, value, ...fieldProps }, fieldState }) => {
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           const rawValue = event.target.value;
+
           const valueWithoutNumbers =
-            type === "numeric"
-              ? rawValue.replace(/\D/g, "")
-              : type === "date"
-                ? rawValue
-                : rawValue.replace(/\d/g, "");
+            type === "numeric" ? rawValue.replace(/\D/g, "") : rawValue;
+
           const valueToSave = maxLength
             ? valueWithoutNumbers.slice(0, maxLength)
             : valueWithoutNumbers;
