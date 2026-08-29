@@ -84,7 +84,7 @@ export default function SessaoCard({ sessoes, associados }: SessaoCardProps) {
             key={sessao.id}
             sx={{
               height: "180px",
-              width: "200px",
+              width: "320px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",

@@ -15,5 +15,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
+  postgres-performance:
+    image: postgres:17
+    container_name: postgres-performance
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: votacao_performance
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_performance_data:/var/lib/postgresql/data
+
+
 volumes:
   postgres_data:
+  postgres_performance_data:
