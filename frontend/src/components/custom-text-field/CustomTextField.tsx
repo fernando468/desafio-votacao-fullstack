@@ -2,7 +2,7 @@ import type { JSX } from "@emotion/react/jsx-runtime";
 import { TextField } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-type Type = "text" | "password" | "email" | "number" | "date";
+type Type = "text" | "password" | "email" | "numeric" | "date";
 
 type FormTextFieldProps = {
   name: string;
@@ -19,7 +19,6 @@ type FormTextFieldProps = {
   endAdornment?: JSX.Element;
   startAdornment?: JSX.Element;
   size?: "small" | "medium";
-  number?: boolean;
 };
 
 export default function CustomFormTextField({
@@ -37,7 +36,6 @@ export default function CustomFormTextField({
   endAdornment,
   startAdornment,
   size = "small",
-  number,
 }: FormTextFieldProps) {
   return (
     <Controller
@@ -47,7 +45,7 @@ export default function CustomFormTextField({
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           const rawValue = event.target.value;
           const valueWithoutNumbers =
-            type === "number" || number
+            type === "numeric"
               ? rawValue.replace(/\D/g, "")
               : type === "date"
                 ? rawValue
@@ -56,13 +54,12 @@ export default function CustomFormTextField({
             ? valueWithoutNumbers.slice(0, maxLength)
             : valueWithoutNumbers;
 
-          onChange(
-            type === "number" || number
-              ? valueToSave === ""
-                ? undefined
-                : Number(valueToSave)
-              : valueToSave,
-          );
+          if (type === "numeric") {
+            onChange(valueToSave === "" ? "" : Number(valueToSave));
+            return;
+          }
+
+          onChange(valueToSave);
         };
 
         return (
@@ -74,6 +71,7 @@ export default function CustomFormTextField({
             placeholder={placeholder}
             className="input"
             aria-label={label}
+            label={label}
             aria-invalid={fieldState.invalid}
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
@@ -86,7 +84,7 @@ export default function CustomFormTextField({
                 max: max,
                 minLength: minLength,
                 maxLength: maxLength,
-                inputMode: type === "number" || number ? "numeric" : undefined,
+                inputMode: type === "numeric" ? "numeric" : undefined,
               },
               input: {
                 endAdornment: endAdornment,

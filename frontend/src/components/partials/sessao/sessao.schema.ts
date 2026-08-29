@@ -2,7 +2,9 @@ import { z } from "zod";
 import { TipoVoto } from "../../../types/tipoVoto.type";
 
 const schemaSessaoFormData = z.object({
-  tempoEmMinuto: z.number().min(1, "Tempo é obrigatória"),
+  tempoEmMinuto: z
+    .number({ error: "Tempo é obrigatório" })
+    .min(1, "Tempo deve ser maior que 0"),
   dataInicio: z.string().min(1, "Data inicio é obrigatória"),
   pautaId: z
     .number({ error: "Pauta é obrigatória" })

@@ -14,7 +14,7 @@ export default function AssociadoForm({
 }: AssociadoFormProps) {
   return (
     <Grid container spacing={2}>
-      <Grid>
+      <Grid size={{ xs: 12 }}>
         <Form control={control} id="form-criar-associado" onSubmit={onSubmit}>
           <Grid
             container
@@ -25,13 +25,12 @@ export default function AssociadoForm({
               <CustomFormTextField
                 name="cpf"
                 label="CPF"
-                type="number"
+                type="numeric"
                 placeholder="CPF"
                 maxLength={11}
                 minLength={11}
                 control={control}
                 required
-                number
               />
             </Grid>
           </Grid>

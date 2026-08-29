@@ -25,7 +25,7 @@ export default function Sessao() {
       dataInicio: "",
       pautaId: 1,
     },
-    resolver: zodResolver(schemaSessaoFormData),
+    resolver: zodResolver(schemaSessaoFormData as any),
   });
   const [pagina, setPagina] = useState(0);
   const tamanho = 10;

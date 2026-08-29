@@ -16,6 +16,7 @@ import type { AssociadoResponse } from "../../../../types/associado.type";
 import type { SessaoResponse } from "../../../../types/sessao.type";
 import { TipoVoto } from "../../../../types/tipoVoto.type";
 import type { VotoRequest } from "../../../../types/voto.type";
+import { formatCpf } from "../../../../utils/cpf.utils";
 import { formatDate } from "../../../../utils/date.utils";
 import CustomAutocomplete from "../../../custom-autocomplete/CustomAutocomplete";
 import CustomButton from "../../../custom-button/CustomButton";
@@ -142,7 +143,7 @@ export default function SessaoCard({ sessoes, associados }: SessaoCardProps) {
                 label="Associado"
                 options={associados}
                 control={control}
-                getOptionLabel={(option) => option.cpf}
+                getOptionLabel={(option) => formatCpf(option.cpf)}
               />
             </Grid>
 

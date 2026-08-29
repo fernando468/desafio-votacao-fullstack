@@ -8,6 +8,7 @@ type FormAutocompleteProps = {
   options: any[];
   control: any;
   getOptionLabel?: (option: any) => string;
+  fullWidth?: boolean;
 };
 
 export default function CustomAutocomplete({
@@ -17,6 +18,7 @@ export default function CustomAutocomplete({
   options,
   control,
   getOptionLabel,
+  fullWidth = true,
 }: FormAutocompleteProps) {
   return (
     <Controller
@@ -31,7 +33,7 @@ export default function CustomAutocomplete({
               : null
           }
           id={id}
-          fullWidth
+          fullWidth={fullWidth}
           options={options}
           getOptionLabel={getOptionLabel}
           isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -47,10 +49,10 @@ export default function CustomAutocomplete({
               helperText={fieldState.error?.message}
               variant="outlined"
               size="small"
-              fullWidth
+              fullWidth={fullWidth}
             />
           )}
-          sx={{ width: 300 }}
+          sx={{ width: fullWidth ? "100%" : 300 }}
         />
       )}
     />

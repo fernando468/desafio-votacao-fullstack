@@ -11,7 +11,7 @@ type PautaFormProps = {
 export default function PautaForm({ control, onSubmit }: PautaFormProps) {
   return (
     <Grid container spacing={2}>
-      <Grid>
+      <Grid size={{ xs: 12 }}>
         <Form control={control} id="form-criar-pauta" onSubmit={onSubmit}>
           <Grid
             container

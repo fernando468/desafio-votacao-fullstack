@@ -3,6 +3,7 @@ package com.db.votacao.services;
 import com.db.votacao.dtos.requests.SessaoRequestDTO;
 import com.db.votacao.dtos.responses.SessaoResponseDTO;
 import com.db.votacao.exceptions.BadRequestException;
+import com.db.votacao.exceptions.ConflictException;
 import com.db.votacao.exceptions.NotFoundException;
 import com.db.votacao.models.Pauta;
 import com.db.votacao.models.Sessao;
@@ -34,7 +35,7 @@ public class SessaoServiceTest {
     private SessaoRepository sessaoRepository;
 
     @Test
-    public void deveCriarSessaoComSucesso() throws NotFoundException, BadRequestException {
+    public void deveCriarSessaoComSucesso() throws NotFoundException, BadRequestException, ConflictException {
         SessaoRequestDTO sessaoRequestDTO = new SessaoRequestDTO(1L, LocalDateTime.now(), 1);
 
         Pauta pauta = new Pauta();

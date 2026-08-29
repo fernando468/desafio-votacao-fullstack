@@ -18,7 +18,7 @@ export default function SessaoForm({
 }: SessaoFormProps) {
   return (
     <Grid container spacing={2}>
-      <Grid>
+      <Grid size={{ xs: 12 }}>
         <Form control={control} id="form-criar-sessao" onSubmit={onSubmit}>
           <Grid
             container
@@ -49,9 +49,9 @@ export default function SessaoForm({
               <CustomFormTextField
                 name="tempoEmMinuto"
                 label="Tempo em minuto"
-                type="number"
+                type="numeric"
                 placeholder="Tempo em minuto"
-                min={1}
+                maxLength={8}
                 control={control}
                 required
               />

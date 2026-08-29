@@ -1,4 +1,5 @@
 import {
+  Box,
   Dialog,
   DialogActions,
   DialogContent,
@@ -33,8 +34,13 @@ export default function Modal({
   const isFormSubmit = Boolean(formId);
 
   return (
-    <>
-      <Dialog open={openDialog} onClose={actionButtonCancel}>
+    <Box>
+      <Dialog
+        open={openDialog}
+        onClose={actionButtonCancel}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           {content && typeof content === "string" ? (
@@ -42,7 +48,7 @@ export default function Modal({
               {content}
             </DialogContentText>
           ) : (
-            content
+            <Box sx={{ paddingTop: 1 }}>{content}</Box>
           )}
         </DialogContent>
         <DialogActions>
@@ -60,6 +66,6 @@ export default function Modal({
           </CustomButton>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }
