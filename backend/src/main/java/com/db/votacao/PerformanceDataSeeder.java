@@ -7,6 +7,7 @@ import com.db.votacao.repositories.AssociadoRepository;
 import com.db.votacao.repositories.PautaRepository;
 import com.db.votacao.repositories.SessaoRepository;
 import com.db.votacao.repositories.VotoRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -24,15 +25,27 @@ public class PerformanceDataSeeder implements CommandLineRunner {
     private final PautaRepository pautaRepository;
     private final SessaoRepository sessaoRepository;
     private final VotoRepository votoRepository;
+    private final EntityManager entityManager;
 
     public PerformanceDataSeeder(AssociadoRepository associadoRepository,
                                  PautaRepository pautaRepository,
                                  SessaoRepository sessaoRepository,
-                                 VotoRepository votoRepository) {
+                                 VotoRepository votoRepository,
+                                 EntityManager entityManager) {
         this.associadoRepository = associadoRepository;
         this.pautaRepository = pautaRepository;
         this.sessaoRepository = sessaoRepository;
         this.votoRepository = votoRepository;
+        this.entityManager = entityManager;
+    }
+
+    @Transactional
+    public void limparDados() {
+        entityManager
+                .createNativeQuery("""
+                TRUNCATE TABLE voto, sessao, pauta, associado RESTART IDENTITY CASCADE
+                """)
+                .executeUpdate();
     }
 
     public String generate(long number) {
@@ -69,7 +82,7 @@ public class PerformanceDataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        votoRepository.deleteAll();
+        limparDados();
 
         LocalDateTime agora = LocalDateTime.now();
 
@@ -85,21 +98,16 @@ public class PerformanceDataSeeder implements CommandLineRunner {
     }
 
     private void criarAssociados() {
-        int total = 100_000;
-        int batchSize = 1_000;
+        int total = 10_000;
 
-        List<Associado> associados = new ArrayList<>();
-        for (int i = 0; i < total; i += batchSize) {
+        List<Associado> associados = new ArrayList<>(total);
 
-
-            for (int j = 0; j < batchSize && i + j < total; j++) {
-                long number = i + j + 1;
-                Associado e = new Associado();
-                e.setCpf(generate(number));
-                associados.add(e);
-            }
-
+        for (int i = 1; i <= total; i++) {
+            Associado associado = new Associado();
+            associado.setCpf(generate(i));
+            associados.add(associado);
         }
+
         associadoRepository.saveAll(associados);
     }
 
@@ -118,22 +126,6 @@ public class PerformanceDataSeeder implements CommandLineRunner {
                 criarPauta(
                         "Aprovacao do balanco",
                         "Aprovar o balanco financeiro anual da cooperativa."
-                ),
-                criarPauta(
-                        "Eleicao diretoria",
-                        "Votacao para eleicao da nova diretoria."
-                ),
-                criarPauta(
-                        "Novo estatuto",
-                        "Aprovar as alteracoes propostas no estatuto."
-                ),
-                criarPauta(
-                        "Distribuicao sobras",
-                        "Definir a distribuicao das sobras aos associados."
-                ),
-                criarPauta(
-                        "Plano de investimentos",
-                        "Aprovar o plano de investimentos para o proximo ano."
                 )
         );
 

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "voto")
 @Table(
-        name = "votos",
+        name = "voto",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_voto_associado_pauta",

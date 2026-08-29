@@ -61,6 +61,10 @@ public class AssociadoService extends PaginacaoService {
         return associado;
     }
 
+    public Associado getReferenceById(Long id) {
+        return associadoRepository.getReferenceById(id);
+    }
+
     public Page<AssociadoResponseDTO> buscarAssociadoPaginado(Integer pagina, Integer tamanho) {
         LOGGER.info("Iniciando - buscar associados (pagina={}, tamanho={})", pagina, tamanho);
         Page<AssociadoResponseDTO> associados = paginar(Associado.class, pagina, tamanho, "id", Sort.Direction.ASC, AssociadoMapper::toResponseDTO);

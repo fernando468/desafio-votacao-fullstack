@@ -2,7 +2,8 @@ package com.db.votacao.models;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "associado")
+@Table(name = "associado")
 public class Associado extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

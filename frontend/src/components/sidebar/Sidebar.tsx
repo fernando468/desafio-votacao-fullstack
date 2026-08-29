@@ -1,25 +1,32 @@
 import type { JSX } from "@emotion/react/jsx-runtime";
-import { Assignment, Home, PlayCircle } from "@mui/icons-material";
+import { Assignment, Home, Menu, PlayCircle } from "@mui/icons-material";
 import {
+  AppBar,
   Box,
   Drawer,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
+  Toolbar,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 type MenuItem = {
   name: string;
   path: string;
   icon: JSX.Element;
 };
+
+const drawerWidth = 250;
 
 const menuItems: MenuItem[] = [
   { name: "Associado", path: "/", icon: <Home /> },
@@ -30,71 +37,162 @@ const menuItems: MenuItem[] = [
 export default function Sidebar() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const navegarPagina = (path: string) => {
     navigate(path);
+
+    // Fecha o Drawer no celular depois de navegar
+    if (isMobile) {
+      setMobileOpen(false);
+    }
   };
 
+  const drawerContent = (
+    <List>
+      {menuItems.map((item, index) => {
+        const isActive = location.pathname === item.path;
+
+        return (
+          <ListItem key={`${item.name}-${index}`} disablePadding>
+            <ListItemButton
+              onClick={() => navegarPagina(item.path)}
+              sx={{
+                color: theme.palette.primary.contrastText,
+                backgroundColor: isActive
+                  ? theme.palette.primary.dark
+                  : "transparent",
+
+                "&:hover": {
+                  backgroundColor: isActive
+                    ? theme.palette.primary.dark
+                    : "rgba(255, 255, 255, 0.1)",
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  color: theme.palette.primary.contrastText,
+                  minWidth: 45,
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <Drawer
-        variant="permanent"
-        sx={{ display: { xs: "none", md: "block", width: 250 } }}
-        slotProps={{
-          paper: {
-            sx: {
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      {/* HEADER MOBILE */}
+      {isMobile && (
+        <AppBar
+          position="fixed"
+          sx={{
+            backgroundColor: "#007efd",
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={() => setMobileOpen(true)}
+              sx={{ mr: 2 }}
+            >
+              <Menu />
+            </IconButton>
+
+            <Typography variant="h6">
+              {menuItems.find((item) => item.path === location.pathname)?.name}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      )}
+
+      {/* SIDEBAR DESKTOP */}
+      {!isMobile && (
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
               backgroundColor: "#007efd",
               color: "#fff",
-              width: 250,
               boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
             },
-          },
-        }}
-      >
-        <List>
-          {menuItems.map((item, index) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <ListItem key={`${item.name}-${index}`} disablePadding>
-                <ListItemButton
-                  sx={{
-                    color: theme.palette.primary.contrastText,
-                    backgroundColor: isActive
-                      ? theme.palette.primary.dark
-                      : "transparent",
-                    "&:hover": {
-                      backgroundColor: isActive
-                        ? theme.palette.primary.dark
-                        : "rgba(255, 255, 255, 0.1)",
-                    },
-                  }}
-                  onClick={() => navegarPagina(item.path)}
-                >
-                  <ListItemIcon
-                    sx={{ color: theme.palette.primary.contrastText }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Drawer>
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      )}
+
+      {/* SIDEBAR MOBILE */}
+      {isMobile && (
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+              backgroundColor: "#007efd",
+              color: "#fff",
+            },
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      )}
+
+      {/* CONTEÚDO */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 2,
           minWidth: 0,
-          height: "100vh",
+          minHeight: "100vh",
+          p: { xs: 1, sm: 2 },
+
+          // Espaço para o AppBar no mobile
+          pt: { xs: 10, md: 2 },
         }}
       >
         <Grid container spacing={2}>
-          <Grid sx={{ width: "100%" }}>
-            <Paper sx={{ p: 1.5, borderRadius: 2, width: "100%" }}>
-              <Typography variant="h4">
+          {/* TÍTULO */}
+          <Grid size={12}>
+            <Paper
+              sx={{
+                p: { xs: 1.5, sm: 2 },
+                borderRadius: 2,
+                width: "100%",
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: {
+                    xs: "1.5rem",
+                    sm: "2rem",
+                    md: "2.125rem",
+                  },
+                }}
+              >
                 {
                   menuItems.find((item) => item.path === location.pathname)
                     ?.name
@@ -102,7 +200,11 @@ export default function Sidebar() {
               </Typography>
             </Paper>
           </Grid>
-          <Outlet />
+
+          {/* CONTEÚDO DA ROTA */}
+          <Grid size={12}>
+            <Outlet />
+          </Grid>
         </Grid>
       </Box>
     </Box>

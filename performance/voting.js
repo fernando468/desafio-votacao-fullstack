@@ -1,26 +1,36 @@
 import { check } from 'k6';
 import http from 'k6/http';
-// Importa o gerador de relatório HTML via CDN
+
 import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
 
 export const options = {
     scenarios: {
         votacao: {
             executor: 'per-vu-iterations',
+
+            // 200 usuários virtuais
             vus: 200,
-            iterations: 500,
+
+            // 50 votos por usuário
+            iterations: 50,
+
             maxDuration: '5m',
         },
     },
 
     thresholds: {
-        http_req_duration: ['p(95)<1000'],
-        http_req_failed: ['rate<0.05'],
+        http_req_duration: [
+            'p(95)<1000',
+            'p(99)<2000',
+        ],
+        http_req_failed: ['rate<0.001'],
     },
 };
 
 export default function () {
-    const associadoId = ((__VU - 1) * 500) + __ITER + 1;
+
+    // Gera IDs únicos de 1 até 10.000
+    const associadoId = ((__VU - 1) * 50) + __ITER + 1;
 
     const payload = JSON.stringify({
         associadoId: associadoId,
@@ -52,9 +62,8 @@ export default function () {
     });
 }
 
-// Hook executado no final do teste para salvar os relatórios
 export function handleSummary(data) {
     return {
-        'summary.html': htmlReport(data), // Gera o arquivo HTML
+        'summary.html': htmlReport(data),
     };
 }

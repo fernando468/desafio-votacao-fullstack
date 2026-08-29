@@ -38,10 +38,22 @@
 
 Requisitos: Java 21, Maven 3.9.12 e Docker
 
-- `cd backend`
-- `docker-compose up -d`
-- `mvn clean install`
-- `mvn spring-boot:run`
+```bash
+cd backend
+```
+
+```bash
+docker-compose up -d
+```
+
+```bash
+mvn clean install
+```
+
+```bash
+mvn spring-boot:run
+```
+
 - Para rodar os testes: `mvn test`
 - Para acessar a API: [http://localhost:8080/api](http://localhost:8080/api)
 - Paraa acessar o Swagger: [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
@@ -50,7 +62,69 @@ Requisitos: Java 21, Maven 3.9.12 e Docker
 
 Requisitos: Node.js >= v24.13.0
 
-- `cd frontend`
-- `npm install`
-- `npm run dev`
+```bash
+cd frontend
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
 - Para acessar o frontend: [http://localhost:5173/](http://localhost:5173/)
+
+## Teste de Performance - Votação
+
+## Executar o backend em modo de performance
+
+```bash
+cd backend
+```
+
+```bash
+docker-compose up -d
+```
+
+```bash
+./mvnw spring-boot:run "-Dspring-boot.run.profiles=performance"
+```
+
+Esse comando inicia a aplicação com a configuração do perfil do banco de dados de performance.
+
+## Executar o teste de carga com k6
+
+No diretório do projeto ou na pasta onde o arquivo `voting.js` está localizado, execute:
+
+```bash
+cd.. (Se não estiver na pasta raiz do projeto)
+```
+
+```bash
+docker run --rm -i -v "/$PWD:/k6" -w //k6 grafana/k6 run - < voting.js
+```
+
+Esse comando:
+
+- monta o diretório atual dentro do container do k6
+- executa o script `voting.js`
+- envia o relatório de resultado para o arquivo `summary.html`
+
+## Observações
+
+- O script envia requisições para a API em `http://host.docker.internal:8081/api/votos`.
+- O cenário configurado simula `200 usuários virtuais` e `50 iterações por usuário`.
+- O teste também define thresholds para:
+  - `http_req_duration` com p(95) menor que `1000ms`
+  - `http_req_failed` com taxa menor que `5%`
+
+## Arquivos relevantes
+
+- `voting.js` — cenário de teste de performance
+- `summary.html` — relatório gerado pelo k6
+
+## Dica
+
+Para rodar tudo em sequência, mantenha o backend aberto em um terminal e execute o comando do Docker em outro terminal.

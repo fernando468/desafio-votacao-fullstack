@@ -20,6 +20,7 @@ import { formatCpf } from "../../../../utils/cpf.utils";
 import { formatDate } from "../../../../utils/date.utils";
 import CustomAutocomplete from "../../../custom-autocomplete/CustomAutocomplete";
 import CustomButton from "../../../custom-button/CustomButton";
+import custoStyleCard from "../../../custom-card/customStyleCard";
 import Modal from "../../../modal/Modal";
 import { schemaVotoFormData } from "../sessao.schema";
 
@@ -73,23 +74,10 @@ export default function SessaoCard({ sessoes, associados }: SessaoCardProps) {
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{ display: "flex", flexDirection: "row", flwWrap: "wrap" }}
-    >
+    <Grid container spacing={2}>
       {sessoes?.map((sessao) => (
-        <Grid key={sessao.id}>
-          <Card
-            key={sessao.id}
-            sx={{
-              height: "180px",
-              width: "320px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
+        <Grid key={sessao.id} size={custoStyleCard.size}>
+          <Card key={sessao.id} sx={custoStyleCard.card}>
             <CardContent>
               <Typography variant="h5" component="div">
                 {sessao.pauta.titulo}
