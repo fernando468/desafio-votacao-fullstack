@@ -137,9 +137,7 @@ docker run --rm -i -v "/$PWD:/k6" -w //k6 grafana/k6 run - < voting.js
 
 Esse comando:
 
-- monta o diretório atual dentro do container do k6
 - executa o script `voting.js`
-- envia o relatório de resultado para o arquivo `summary.html`
 
 ## Observações
 
