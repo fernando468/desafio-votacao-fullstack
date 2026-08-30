@@ -43,13 +43,13 @@ export default function useSessao() {
     setIsLoading(true);
 
     const dataInicio = new Date(data.dataInicio);
-    const agora = new Date();
+
     const resultado = format(
       set(dataInicio, {
-        hours: agora.getHours(),
-        minutes: agora.getMinutes(),
-        seconds: agora.getSeconds(),
-        milliseconds: agora.getMilliseconds(),
+        hours: dataInicio.getHours(),
+        minutes: dataInicio.getMinutes(),
+        seconds: dataInicio.getSeconds(),
+        milliseconds: dataInicio.getMilliseconds(),
       }),
       "yyyy-MM-dd'T'HH:mm:ss.SSS",
     );
