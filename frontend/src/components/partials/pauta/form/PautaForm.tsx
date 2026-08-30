@@ -36,7 +36,7 @@ export default function PautaForm({ control, onSubmit }: PautaFormProps) {
                 label="Descrição"
                 type="text"
                 minLength={3}
-                maxLength={150}
+                maxLength={85}
                 placeholder="Descrição"
                 control={control}
                 required

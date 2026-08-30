@@ -16,10 +16,24 @@ export default function CustomCard({ data }: CustomCardProps) {
     <Grid container spacing={2}>
       {data?.map((data, index) => (
         <Grid key={`${data.id}-${index}`} size={custoStyleCard.size}>
-          <Card sx={custoStyleCard.card}>
+          <Card sx={{ ...custoStyleCard.card, overflow: "auto" }}>
             <CardContent>
-              <Typography variant="h5">{data.titulo}</Typography>
-              <Typography variant="body2">{data.descricao}</Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {data.titulo}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {data.descricao}
+              </Typography>
             </CardContent>
           </Card>
         </Grid>
