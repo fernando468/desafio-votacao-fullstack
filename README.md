@@ -57,7 +57,12 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-- Para rodar os testes: `mvn test`
+Para rodar os testes:
+
+```bash
+mvn test
+```
+
 - Para acessar a API: [http://localhost:8080/api](http://localhost:8080/api)
 - Para acessar o Swagger: [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
 - Para acessar o banco de dados: [http://localhost:5432/votacao](http://localhost:5432/votacao)
