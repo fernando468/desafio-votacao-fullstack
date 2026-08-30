@@ -71,6 +71,12 @@ mvn test
 
 Requisitos: Node.js >= v24.13.0
 
+- Se não estiver na pasta raiz do projeto
+
+```bash
+cd ..
+```
+
 ```bash
 cd frontend
 ```
@@ -88,6 +94,12 @@ npm run dev
 ## Teste de Performance - Votação
 
 ## Executar o backend em modo de performance
+
+- Se não estiver na pasta raiz do projeto
+
+```bash
+cd ..
+```
 
 ```bash
 cd backend
@@ -107,10 +119,17 @@ Esse comando inicia a aplicação com a configuração do perfil do banco de dad
 
 No diretório do projeto ou na pasta onde o arquivo `voting.js` está localizado, execute:
 
+- Se não estiver na pasta raiz do projeto
+
 ```bash
-cd.. (Se não estiver na pasta raiz do projeto)
+cd ..
+```
+
+```bash
 cd performance
 ```
+
+- Observação: esperar o backend iniciar e criar os associados, pautas e sessões automaticamente.
 
 ```bash
 docker run --rm -i -v "/$PWD:/k6" -w //k6 grafana/k6 run - < voting.js
@@ -157,3 +176,10 @@ Esse comando:
 ### Estrutura do Teste de Performance [Tarefa bônus 2]
 
 - Para realizar o teste de performance, foi utilizado o framework k6. O cenário testa com 200 usuários virtuais e 50 iterações por usuário e após o teste é gerado um relatório html com os resultados. Foi criado também uma base de dados para o teste de performance. Quando é iniciada a aplicação são criados associados, pautas e sessões para quando o testes for executado ele não precisar criar esses dados só para realizar a votação.
+
+# Resultado do teste de performance
+
+- O teste realizado com 200 usuários virtuais e 50 iterações que demorou 14.7 segundos para ser concluído.
+- Teste executado sem falhas.
+
+![Resultado do teste](./performance/resultado-teste-performance.png)

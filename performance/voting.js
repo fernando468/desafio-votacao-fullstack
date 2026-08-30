@@ -1,19 +1,13 @@
 import { check } from 'k6';
 import http from 'k6/http';
 
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
 
 export const options = {
     scenarios: {
         votacao: {
             executor: 'per-vu-iterations',
-
-            // 200 usuários virtuais
             vus: 200,
-
-            // 50 votos por usuário
             iterations: 50,
-
             maxDuration: '5m',
         },
     },
@@ -29,7 +23,6 @@ export const options = {
 
 export default function () {
 
-    // Gera IDs únicos de 1 até 10.000
     const associadoId = ((__VU - 1) * 50) + __ITER + 1;
 
     const payload = JSON.stringify({
@@ -45,7 +38,7 @@ export default function () {
     };
 
     const response = http.post(
-        'http://host.docker.internal:8081/api/votos',
+        'http://host.docker.internal:8081/api/votos/v1',
         payload,
         params
     );
@@ -60,10 +53,4 @@ export default function () {
         'status é sucesso': (r) =>
             r.status === 200 || r.status === 201,
     });
-}
-
-export function handleSummary(data) {
-    return {
-        'summary.html': htmlReport(data),
-    };
 }
