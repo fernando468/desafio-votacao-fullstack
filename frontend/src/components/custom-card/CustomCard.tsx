@@ -18,13 +18,8 @@ export default function CustomCard({ data }: CustomCardProps) {
         <Grid key={`${data.id}-${index}`} size={custoStyleCard.size}>
           <Card sx={custoStyleCard.card}>
             <CardContent>
-              <Typography variant="h5" component="div">
-                {data.titulo}
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary">
-                {data.descricao}
-              </Typography>
+              <Typography variant="h5">{data.titulo}</Typography>
+              <Typography variant="body2">{data.descricao}</Typography>
             </CardContent>
           </Card>
         </Grid>

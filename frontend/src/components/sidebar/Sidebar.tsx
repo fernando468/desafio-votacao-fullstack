@@ -17,7 +17,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 type MenuItem = {
@@ -46,11 +46,17 @@ export default function Sidebar() {
   const navegarPagina = (path: string) => {
     navigate(path);
 
-    // Fecha o Drawer no celular depois de navegar
     if (isMobile) {
       setMobileOpen(false);
     }
   };
+
+  useEffect(() => {
+    const menuItem = menuItems.find(
+      (menuItem) => menuItem.path === location.pathname,
+    );
+    document.title = `${menuItem?.name} | Votação Associados`;
+  }, [location]);
 
   const drawerContent = (
     <List>
@@ -93,7 +99,6 @@ export default function Sidebar() {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* HEADER MOBILE */}
       {isMobile && (
         <AppBar
           position="fixed"
@@ -118,7 +123,6 @@ export default function Sidebar() {
         </AppBar>
       )}
 
-      {/* SIDEBAR DESKTOP */}
       {!isMobile && (
         <Drawer
           variant="permanent"
@@ -138,7 +142,6 @@ export default function Sidebar() {
         </Drawer>
       )}
 
-      {/* SIDEBAR MOBILE */}
       {isMobile && (
         <Drawer
           variant="temporary"
@@ -160,7 +163,6 @@ export default function Sidebar() {
         </Drawer>
       )}
 
-      {/* CONTEÚDO */}
       <Box
         component="main"
         sx={{
@@ -168,13 +170,10 @@ export default function Sidebar() {
           minWidth: 0,
           minHeight: "100vh",
           p: { xs: 1, sm: 2 },
-
-          // Espaço para o AppBar no mobile
           pt: { xs: 10, md: 2 },
         }}
       >
         <Grid container spacing={2}>
-          {/* TÍTULO */}
           <Grid size={12}>
             <Paper
               sx={{
@@ -201,7 +200,6 @@ export default function Sidebar() {
             </Paper>
           </Grid>
 
-          {/* CONTEÚDO DA ROTA */}
           <Grid size={12}>
             <Outlet />
           </Grid>
